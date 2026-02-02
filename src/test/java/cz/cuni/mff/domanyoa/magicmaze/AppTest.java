@@ -1,4 +1,4 @@
-package com.yourname.magicmaze;
+package cz.cuni.mff.domanyoa.magicmaze;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
