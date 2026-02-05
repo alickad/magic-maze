@@ -60,7 +60,7 @@ public class SetupScreen {
         gridPane.add(new Label("YELLOW") , 4, 0);
         for (int i = 0; i < heroes.size(); i++) {
             for (int j = 0; j < 4; j++) {
-                gridPane.add(grid[i][j], i+1, j+1);
+                gridPane.add(grid[i][j], j, i);  // Swap: column=j, row=i
             }
         }
 

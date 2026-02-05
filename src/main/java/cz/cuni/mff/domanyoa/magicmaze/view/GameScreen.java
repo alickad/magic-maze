@@ -1,5 +1,7 @@
 package cz.cuni.mff.domanyoa.magicmaze.view;
 
+import java.util.List;
+
 import cz.cuni.mff.domanyoa.magicmaze.model.Board;
 import cz.cuni.mff.domanyoa.magicmaze.model.Direction;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
@@ -7,16 +9,17 @@ import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
-
-import java.awt.event.KeyEvent;
-import java.util.List;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class GameScreen {
     private Logic logic;
     private List<Hero> heroes;
     private Board board;
     private StackPane[][] grid;
+    private String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
 
     public  GameScreen(Logic logic) {
         this.logic = logic;
@@ -66,7 +69,7 @@ public class GameScreen {
             for (int j = 0; j < board.width(); j++){
                 StackPane cell = new StackPane();
                 cell.setPrefSize(cellSize, cellSize);  // Set uniform size
-                cell.setStyle("-fx-border-color: lightgray; -fx-background-color: white;");
+                cell.setStyle(defaultStyle);
                 grid[i][j] = cell;
                 gridPane.add(grid[i][j], i, j);
             }
@@ -74,19 +77,19 @@ public class GameScreen {
         for (Hero hero : heroes){
             int x =  hero.getX();
             int y = hero.getY();
-            grid[y][x].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
+            grid[x][y].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
         }
     }
 
     private void graphicMove(Hero hero, Direction d){
         int x = hero.getX();
         int y = hero.getY();
-        grid[y][x].setStyle("-fx-background-color: white;");
+        grid[x][y].setStyle(defaultStyle);
         switch (d){
-            case UP -> grid[y-1][x].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case DOWN -> grid[y+1][x].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case LEFT -> grid[y][x - 1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case RIGHT -> grid[y][x + 1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case UP -> grid[x][y-1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case DOWN -> grid[x][y+1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case LEFT -> grid[x-1][y].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case RIGHT -> grid[x+1][y].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
         }
     }
 
@@ -107,23 +110,23 @@ public class GameScreen {
             for  (Hero hero : heroes){
                 if (code == hero.getUP() && logic.canMove(hero, Direction.UP)){
                     System.out.println("moving up");
-                    hero.move(Direction.UP);
                     graphicMove(hero, Direction.UP);
+                    hero.move(Direction.UP);
                 }
                 if (code == hero.getDOWN() && logic.canMove(hero, Direction.DOWN)){
                     System.out.println("moving down");
-                    hero.move(Direction.DOWN);
                     graphicMove(hero, Direction.DOWN);
+                    hero.move(Direction.DOWN);
                 }
                 if (code == hero.getLEFT() && logic.canMove(hero, Direction.LEFT)){
                     System.out.println("moving left");
-                    hero.move(Direction.LEFT);
                     graphicMove(hero, Direction.LEFT);
+                    hero.move(Direction.LEFT);
                 }
                 if (code == hero.getRIGHT() && logic.canMove(hero, Direction.RIGHT)){
                     System.out.println("moving right");
-                    hero.move(Direction.RIGHT);
                     graphicMove(hero, Direction.RIGHT);
+                    hero.move(Direction.RIGHT);
                 }
             }
         });
