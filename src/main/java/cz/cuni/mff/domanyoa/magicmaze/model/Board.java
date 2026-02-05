@@ -9,11 +9,22 @@ public class Board {
         BOARD_HEIGHT = board_height;
         BOARD_WIDTH = board_width;
         board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
-        // board tiles initialization
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                board[i][j] = new Tile(i, j);
+            }
+        }
     }
 
     Tile tileAt(int x, int y) {
         return board[x][y];
+    }
+
+    public int width(){
+        return BOARD_WIDTH;
+    }
+    public int height(){
+        return BOARD_HEIGHT;
     }
 
 

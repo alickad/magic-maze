@@ -4,10 +4,10 @@ public class Tile {
     private int x, y;
     private boolean occupied;
     private boolean upWall;
-    private boolean downWall;
-    private boolean leftWall;
-    private boolean rightWall;
-    private boolean isEmpty;
+    private boolean downWall = false;
+    private boolean leftWall = false;
+    private boolean rightWall = false;
+    private boolean isEmpty = false;
 
     public Tile(int x, int y, boolean upWall, boolean downWall, boolean leftWall, boolean rightWall) {
         occupied = false;
@@ -22,7 +22,6 @@ public class Tile {
         occupied = false;
         this.x = x;
         this.y = y;
-        isEmpty = true;
     }
 
     public boolean isEmpty() {return isEmpty;}

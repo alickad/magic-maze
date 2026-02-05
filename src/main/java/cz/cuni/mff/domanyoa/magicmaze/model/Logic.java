@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Logic {
-    public final int BOARD_HEIGHT = 50;
-    public final int BOARD_WIDTH = 50;
+    public static final int BOARD_HEIGHT = 20;
+    public static final int BOARD_WIDTH = 20;
     Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
     List<Hero> heroes;
     
-    public Logic() {
+    public Logic(List<Hero> heroes) {
+        this.heroes = heroes;
         // Simple board initialization for now - all tiles are walkable
         initializeSimpleBoard();
     }
 
     private void initializeSimpleBoard() {
-        // TODO: Implement proper board with tiles and walls
-        // For now, this is a placeholder for future tile setup
-    }
-
-    public void initializeHeroes(List<Hero> heroes) {
-        this.heroes = heroes;
+        // placeholder
     }
 
     public boolean canMove(Hero hero, Direction d){
@@ -28,9 +24,9 @@ public class Logic {
         int y = hero.getY();
         switch (d){
             case UP -> {
-                if (y <= 0 || board.tileAt(x,y).isWall(Direction.UP)) return false;
-                if (board.tileAt(x,y-1).isEmpty() || board.tileAt(x, y-1).isOccupied()) return false;
-                if (board.tileAt(x, y-1).isWall(Direction.DOWN))  return false;
+                if (y <= 0 || board.tileAt(x,y).isWall(Direction.UP)) {System.out.println("broken1"); return false;}
+                if (board.tileAt(x,y-1).isEmpty() || board.tileAt(x, y-1).isOccupied()) {System.out.println("broken2"); return false;}
+                if (board.tileAt(x, y-1).isWall(Direction.DOWN))  {System.out.println("broken3"); return false;}
                 return true;
             }
             case DOWN -> {
@@ -80,5 +76,12 @@ public class Logic {
                 board.tileAt(x+1,  y).setOccupied(true);
             }
         }
+    }
+
+    public List<Hero> getHeroes() {
+        return heroes;
+    }
+    public Board getBoard() {
+        return board;
     }
 }

@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import cz.cuni.mff.domanyoa.magicmaze.model.Color;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
+import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,14 +18,14 @@ import javafx.scene.layout.VBox;
 
 public class SetupScreen {
     List<Hero> heroes;
-    private Consumer<List<Hero>> onSetupComplete;  // Storage for the "phone number"
+    private Consumer<List<Hero>> onSetupComplete;
     private StackPane[][] grid;
 
     public SetupScreen() {
-        Hero redHero = new Hero(Color.RED, 25, 25, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
-        Hero blueHero = new Hero(Color.BLUE, 24, 25, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
-        Hero greenHero = new Hero(Color.GREEN, 24, 24, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
-        Hero yellowHero = new Hero(Color.YELLOW, 25, 24, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
+        Hero redHero = new Hero(Color.RED, Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
+        Hero blueHero = new Hero(Color.BLUE, Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
+        Hero greenHero = new Hero(Color.GREEN, Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2 + 1, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
+        Hero yellowHero = new Hero(Color.YELLOW, Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2 + 1, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
         heroes = Arrays.asList(redHero, blueHero, greenHero, yellowHero);
 
         grid = new StackPane[4][4];
