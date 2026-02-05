@@ -1,14 +1,11 @@
 package cz.cuni.mff.domanyoa.magicmaze;
 
-import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import cz.cuni.mff.domanyoa.magicmaze.view.GameScreen;
 import cz.cuni.mff.domanyoa.magicmaze.view.SetupScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class Main extends Application {
     Logic logic;

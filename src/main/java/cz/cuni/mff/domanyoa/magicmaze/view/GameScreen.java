@@ -71,25 +71,25 @@ public class GameScreen {
                 cell.setPrefSize(cellSize, cellSize);  // Set uniform size
                 cell.setStyle(defaultStyle);
                 grid[i][j] = cell;
-                gridPane.add(grid[i][j], i, j);
+                gridPane.add(grid[i][j], j,i);
             }
         }
         for (Hero hero : heroes){
             int x =  hero.getX();
             int y = hero.getY();
-            grid[x][y].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
+            grid[y][x].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
         }
     }
 
     private void graphicMove(Hero hero, Direction d){
         int x = hero.getX();
         int y = hero.getY();
-        grid[x][y].setStyle(defaultStyle);
+        grid[y][x].setStyle(defaultStyle);
         switch (d){
-            case UP -> grid[x][y-1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case DOWN -> grid[x][y+1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case LEFT -> grid[x-1][y].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
-            case RIGHT -> grid[x+1][y].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case UP -> grid[y-1][x].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case DOWN -> grid[y+1][x].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case LEFT -> grid[y][x-1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
+            case RIGHT -> grid[y][x+1].setStyle("-fx-background-color: " + hero.getColor().name() + ";");
         }
     }
 
@@ -111,22 +111,22 @@ public class GameScreen {
                 if (code == hero.getUP() && logic.canMove(hero, Direction.UP)){
                     System.out.println("moving up");
                     graphicMove(hero, Direction.UP);
-                    hero.move(Direction.UP);
+                    logic.move(hero, Direction.UP);
                 }
                 if (code == hero.getDOWN() && logic.canMove(hero, Direction.DOWN)){
                     System.out.println("moving down");
                     graphicMove(hero, Direction.DOWN);
-                    hero.move(Direction.DOWN);
+                    logic.move(hero, Direction.DOWN);
                 }
                 if (code == hero.getLEFT() && logic.canMove(hero, Direction.LEFT)){
                     System.out.println("moving left");
                     graphicMove(hero, Direction.LEFT);
-                    hero.move(Direction.LEFT);
+                    logic.move(hero, Direction.LEFT);
                 }
                 if (code == hero.getRIGHT() && logic.canMove(hero, Direction.RIGHT)){
                     System.out.println("moving right");
                     graphicMove(hero, Direction.RIGHT);
-                    hero.move(Direction.RIGHT);
+                    logic.move(hero, Direction.RIGHT);
                 }
             }
         });

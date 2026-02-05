@@ -16,8 +16,8 @@ public class Board {
         }
     }
 
-    Tile tileAt(int x, int y) {
-        return board[x][y];
+    Tile tileAt(int y, int x) {
+        return board[y][x];  // board[row][col] = board[y][x]
     }
 
     public int width(){

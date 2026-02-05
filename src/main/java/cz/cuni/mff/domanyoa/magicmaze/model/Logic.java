@@ -1,6 +1,5 @@
 package cz.cuni.mff.domanyoa.magicmaze.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Logic {
@@ -13,6 +12,11 @@ public class Logic {
         this.heroes = heroes;
         // Simple board initialization for now - all tiles are walkable
         initializeSimpleBoard();
+        
+        // Mark initial hero positions as occupied
+        for (Hero hero : heroes) {
+            board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
+        }
     }
 
     private void initializeSimpleBoard() {
@@ -24,27 +28,27 @@ public class Logic {
         int y = hero.getY();
         switch (d){
             case UP -> {
-                if (y <= 0 || board.tileAt(x,y).isWall(Direction.UP)) {System.out.println("broken1"); return false;}
-                if (board.tileAt(x,y-1).isEmpty() || board.tileAt(x, y-1).isOccupied()) {System.out.println("broken2"); return false;}
-                if (board.tileAt(x, y-1).isWall(Direction.DOWN))  {System.out.println("broken3"); return false;}
+                if (y <= 0 || board.tileAt(y,x).isWall(Direction.UP)) return false;
+                if (board.tileAt(y-1,x).isEmpty() || board.tileAt(y-1, x).isOccupied()) return false;
+                if (board.tileAt(y-1,x).isWall(Direction.DOWN)) return false;
                 return true;
             }
             case DOWN -> {
-                if (y >= BOARD_HEIGHT-1 || board.tileAt(x,y).isWall(Direction.DOWN)) return false;
-                if (board.tileAt(x,y+1).isEmpty() || board.tileAt(x, y+1).isOccupied()) return false;
-                if (board.tileAt(x, y+1).isWall(Direction.UP))  return false;
+                if (y >= BOARD_HEIGHT-1 || board.tileAt(y,x).isWall(Direction.DOWN)) return false;
+                if (board.tileAt(y + 1, x).isEmpty() || board.tileAt(y + 1, x).isOccupied()) return false;
+                if (board.tileAt(y + 1, x).isWall(Direction.UP))  return false;
                 return true;
             }
             case LEFT -> {
-                if (x <= 0 || board.tileAt(x,y).isWall(Direction.LEFT)) return false;
-                if (board.tileAt(x-1, y).isEmpty() || board.tileAt(x-1, y).isOccupied()) return false;
-                if (board.tileAt(x - 1, y).isWall(Direction.RIGHT))  return false;
+                if (x <= 0 || board.tileAt(y,x).isWall(Direction.LEFT)) return false;
+                if (board.tileAt(y, x-1).isEmpty() || board.tileAt(y, x-1).isOccupied()) return false;
+                if (board.tileAt(y, x-1).isWall(Direction.RIGHT))  return false;
                 return true;
             }
             case RIGHT -> {
-                if (x >= BOARD_WIDTH-1 || board.tileAt(x, y).isWall(Direction.RIGHT)) return false;
-                if (board.tileAt(x + 1,  y).isEmpty() || board.tileAt(x + 1, y).isOccupied()) return false;
-                if (board.tileAt(x + 1, y).isWall(Direction.LEFT))  return false;
+                if (x >= BOARD_WIDTH-1 || board.tileAt(y,x).isWall(Direction.RIGHT)) return false;
+                if (board.tileAt(y, x+1).isEmpty() || board.tileAt(y, x+1).isOccupied()) return false;
+                if (board.tileAt(y, x+1).isWall(Direction.LEFT))  return false;
                 return true;
             }
         }
@@ -54,26 +58,29 @@ public class Logic {
         if (!canMove(hero, d)) return;
         int x = hero.getX();
         int y = hero.getY();
+        System.out.println("Moving " + hero.getColor() + " from (" + y + "," + x + ") direction " + d);
+        System.out.println("Tile before: occupied=" + board.tileAt(y,x).isOccupied());
         switch (d) {
             case UP -> {
+                board.tileAt(y,x).setOccupied(false);
                 hero.move(Direction.UP);
-                board.tileAt(x,y).setOccupied(false);
-                board.tileAt(x,y - 1).setOccupied(true);
+                board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
+                System.out.println("New position (" + hero.getX() + "," + hero.getY() + ") occupied=" + board.tileAt(hero.getX(),hero.getY()).isOccupied());
             }
             case DOWN -> {
+                board.tileAt(y,x).setOccupied(false);
                 hero.move(Direction.DOWN);
-                board.tileAt(x,y).setOccupied(false);
-                board.tileAt(x,y + 1).setOccupied(true);
+                board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
             }
             case LEFT -> {
+                board.tileAt(y,x).setOccupied(false);
                 hero.move(Direction.LEFT);
-                board.tileAt(x,y).setOccupied(false);
-                board.tileAt(x-1,y).setOccupied(true);
+                board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
             }
             case RIGHT -> {
+                board.tileAt(y,x).setOccupied(false);
                 hero.move(Direction.RIGHT);
-                board.tileAt(x,y).setOccupied(false);
-                board.tileAt(x+1,  y).setOccupied(true);
+                board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
             }
         }
     }
