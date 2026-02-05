@@ -3,14 +3,14 @@ package cz.cuni.mff.domanyoa.magicmaze.model;
 import javafx.scene.input.KeyCode;
 
 public class Hero {
-    private String name;
+    private Color color;
     private int x,y;
     private KeyCode moveUpKey;
     private KeyCode moveDownKey;
     private KeyCode moveLeftKey;
     private KeyCode moveRightKey;
-    public Hero(String name, int x, int y, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
-        this.name = name;
+    public Hero(Color color, int x, int y, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
+        this.color = color;
         this.x = x;
         this.y = y;
         this.moveUpKey = moveUp;
@@ -19,7 +19,7 @@ public class Hero {
         this.moveRightKey = moveRight;
     }
     public Hero(){
-        this.name = "blue";
+        this.color = Color.BLUE;
         this.x = 100;
         this.y = 100;
         this.moveUpKey = KeyCode.UP;
@@ -48,4 +48,15 @@ public class Hero {
             case RIGHT -> this.moveRightKey = k;
         }
     }
+
+    public Color getColor() {return color;}
+    public KeyCode getUP() {return moveUpKey;}
+    public KeyCode getDOWN() {return moveDownKey;}
+    public KeyCode getLEFT() {return moveLeftKey;}
+    public KeyCode getRIGHT() {return moveRightKey;}
+
+    public void setUP(KeyCode code){this.moveUpKey = code;}
+    public void setDOWN(KeyCode code){this.moveDownKey = code;}
+    public void setLEFT(KeyCode code){this.moveLeftKey = code;}
+    public void setRIGHT(KeyCode code){this.moveRightKey = code;}
 }

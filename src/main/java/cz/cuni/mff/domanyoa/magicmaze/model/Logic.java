@@ -7,6 +7,7 @@ public class Logic {
     public final int BOARD_HEIGHT = 50;
     public final int BOARD_WIDTH = 50;
     Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
+    List<Hero> heroes;
     
     public Logic() {
         // Simple board initialization for now - all tiles are walkable
@@ -18,12 +19,8 @@ public class Logic {
         // For now, this is a placeholder for future tile setup
     }
 
-    public List<Hero> initializeHeroes(List<HeroConfig> configs) {
-        List<Hero> heroes = new ArrayList<>();
-        for (HeroConfig config : configs) {
-            heroes.add(new Hero(config));
-        }
-        return heroes;
+    public void initializeHeroes(List<Hero> heroes) {
+        this.heroes = heroes;
     }
 
     public boolean canMove(Hero hero, Direction d){
