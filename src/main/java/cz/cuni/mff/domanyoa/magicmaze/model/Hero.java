@@ -4,14 +4,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class Hero {
-    private Color color;
     private int x,y;
     private KeyCode moveUpKey;
     private KeyCode moveDownKey;
     private KeyCode moveLeftKey;
     private KeyCode moveRightKey;
-    public Hero(Color color, int x, int y, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
-        this.color = color;
+    public Hero(int x, int y, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
         this.x = x;
         this.y = y;
         this.moveUpKey = moveUp;
@@ -20,7 +18,6 @@ public class Hero {
         this.moveRightKey = moveRight;
     }
     public Hero(){
-        this.color = Color.BLUE;
         this.x = 100;
         this.y = 100;
         this.moveUpKey = KeyCode.UP;
@@ -50,7 +47,6 @@ public class Hero {
         }
     }
 
-    public Color getColor() {return color;}
     public KeyCode getUP() {return moveUpKey;}
     public KeyCode getDOWN() {return moveDownKey;}
     public KeyCode getLEFT() {return moveLeftKey;}

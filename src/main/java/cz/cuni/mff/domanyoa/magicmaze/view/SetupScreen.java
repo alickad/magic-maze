@@ -22,11 +22,11 @@ public class SetupScreen {
     private StackPane[][] grid;
 
     public SetupScreen() {
-        Hero redHero = new Hero(Color.RED, Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
-        Hero blueHero = new Hero(Color.BLUE, Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
-        Hero greenHero = new Hero(Color.GREEN, Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2 + 1, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
-        Hero yellowHero = new Hero(Color.YELLOW, Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2 + 1, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
-        heroes = Arrays.asList(redHero, blueHero, greenHero, yellowHero);
+        Hero hero1 = new Hero(Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
+        Hero hero2 = new Hero(Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
+        Hero hero3 = new Hero(Logic.BOARD_HEIGHT/2,Logic.BOARD_WIDTH/2 + 1, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
+        Hero hero4 = new Hero(Logic.BOARD_HEIGHT/2 + 1,Logic.BOARD_WIDTH/2 + 1, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
+        heroes = Arrays.asList(hero1, hero2, hero3, hero4);
 
         grid = new StackPane[4][4];
         for (int i = 0; i < 4; i++) {

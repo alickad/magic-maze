@@ -58,7 +58,7 @@ public class Logic {
         if (!canMove(hero, d)) return;
         int x = hero.getX();
         int y = hero.getY();
-        System.out.println("Moving " + hero.getColor() + " from (" + y + "," + x + ") direction " + d);
+        System.out.println("Moving from (" + y + "," + x + ") direction " + d);
         System.out.println("Tile before: occupied=" + board.tileAt(y,x).isOccupied());
         switch (d) {
             case UP -> {

@@ -8,6 +8,7 @@ import cz.cuni.mff.domanyoa.magicmaze.model.Board;
 import cz.cuni.mff.domanyoa.magicmaze.model.Direction;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -16,17 +17,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 
 public class GameScreen {
     private Logic logic;
     private List<Hero> heroes;
     private Board board;
     private StackPane[][] grid;
-    private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
+    //private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
     Map<Hero, Shape> heroNodes = new HashMap<>();
+
+    private Color getShapeColor(Shape shape) {
+        Paint fill = shape.getFill();
+        if (fill instanceof Color color) {
+            return color;
+        }
+        return null; // unknown type (gradient, pattern, etc.)
+    }
 
     public  GameScreen(Logic logic) {
         this.logic = logic;
@@ -66,15 +77,20 @@ public class GameScreen {
         HBox h4 = new HBox();
 
         for (int i = 0; i < this.heroes.size(); i++) {
-            Color color = heroes.get(i).getColor();
+            Color colorC = getShapeColor(heroNodes.get(heroes.get(i)));
+            String color = String.format("rgba(%d,%d,%d,%.2f)",
+                    (int)(colorC.getRed() * 255),
+                    (int)(colorC.getGreen() * 255),
+                    (int)(colorC.getBlue() * 255),
+                    colorC.getOpacity());
             h1.getChildren().add(new Label(heroes.get(i).getUP().getName()));
             h2.getChildren().add(new Label(heroes.get(i).getDOWN().getName()));
             h3.getChildren().add(new Label(heroes.get(i).getLEFT().getName()));
             h4.getChildren().add(new Label(heroes.get(i).getRIGHT().getName()));
-            h1.getChildren().get(i).setStyle("-fx-background-color: " + color + ";");
-            h2.getChildren().get(i).setStyle("-fx-background-color: " + color + ";");
-            h3.getChildren().get(i).setStyle("-fx-background-color: " + color + ";");
-            h4.getChildren().get(i).setStyle("-fx-background-color: " + color + ";");
+            h1.getChildren().get(i).setStyle("-fx-background-color: " + color + "; -fx-padding: 10px;");
+            h2.getChildren().get(i).setStyle("-fx-background-color: " + color + "; -fx-padding: 10px;");
+            h3.getChildren().get(i).setStyle("-fx-background-color: " + color + "; -fx-padding: 10px;");
+            h4.getChildren().get(i).setStyle("-fx-background-color: " + color + "; -fx-padding: 10px;");
         }
 
         p1.getChildren().addAll(l1,h1);
