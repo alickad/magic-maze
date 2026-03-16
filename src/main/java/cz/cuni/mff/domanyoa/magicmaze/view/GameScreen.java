@@ -19,7 +19,7 @@ public class GameScreen {
     private List<Hero> heroes;
     private Board board;
     private StackPane[][] grid;
-    private String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
+    private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
 
     public  GameScreen(Logic logic) {
         this.logic = logic;

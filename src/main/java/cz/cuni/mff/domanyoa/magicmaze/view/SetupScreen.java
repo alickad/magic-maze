@@ -50,14 +50,14 @@ public class SetupScreen {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        gridPane.add(new Label("up"), 0, 1);
-        gridPane.add(new Label("down"), 0, 2);
-        gridPane.add(new Label("left"), 0, 3);
-        gridPane.add(new Label("right"), 0, 4);
-        gridPane.add(new Label("RED") , 1, 0);
-        gridPane.add(new Label("BLUE") , 2, 0);
-        gridPane.add(new Label("GREEN") , 3, 0);
-        gridPane.add(new Label("YELLOW") , 4, 0);
+        gridPane.add(new Label("up"), 4, 0);
+        gridPane.add(new Label("down"), 4, 1);
+        gridPane.add(new Label("left"), 4, 2);
+        gridPane.add(new Label("right"), 4, 3);
+        gridPane.add(new Label("RED") , 0, 4);
+        gridPane.add(new Label("BLUE") , 1, 4);
+        gridPane.add(new Label("GREEN") , 2, 4);
+        gridPane.add(new Label("YELLOW") , 3, 4);
         for (int i = 0; i < heroes.size(); i++) {
             for (int j = 0; j < 4; j++) {
                 gridPane.add(grid[i][j], j, i);  // Swap: column=j, row=i
@@ -89,13 +89,12 @@ public class SetupScreen {
             System.out.println("Is pressed: " + code);
             if (code.isArrowKey()){
                 keyEvent.consume();
-                
-                grid[selectedColumn.get()][selectedRow.get()].setStyle("-fx-border-color: black; -fx-background-color: white;");
+                grid[selectedRow.get()][selectedColumn.get()].setStyle("-fx-border-color: black; -fx-background-color: white;");
                 if (code == KeyCode.UP && selectedRow.get() > 0) selectedRow.getAndDecrement();
                 else if (code == KeyCode.DOWN && selectedRow.get() < 3) selectedRow.getAndIncrement();
                 else if (code == KeyCode.LEFT && selectedColumn.get() > 0) selectedColumn.getAndDecrement();
                 else if (code == KeyCode.RIGHT && selectedColumn.get() < 3) selectedColumn.getAndIncrement();
-                grid[selectedColumn.get()][selectedRow.get()].setStyle("-fx-border-color: black; -fx-background-color: orange;");
+                grid[selectedRow.get()][selectedColumn.get()].setStyle("-fx-border-color: black; -fx-background-color: orange;");
             }
 
             if (code.isDigitKey() || code.isLetterKey()){
@@ -106,7 +105,7 @@ public class SetupScreen {
                     case 2 -> hero.setLEFT(code);
                     case 3 -> hero.setRIGHT(code);
                 }
-                StackPane currentCell = grid[selectedColumn.get()][selectedRow.get()];
+                StackPane currentCell = grid[selectedRow.get()][selectedColumn.get()];
                 Label label = (Label) currentCell.getChildren().get(0);  // Get the Label child
                 label.setText(code.getName());  // Update text
             }
