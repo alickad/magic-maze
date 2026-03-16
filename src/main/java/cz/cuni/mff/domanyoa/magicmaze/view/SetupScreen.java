@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import cz.cuni.mff.domanyoa.magicmaze.model.Color;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
@@ -15,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class SetupScreen {
     List<Hero> heroes;

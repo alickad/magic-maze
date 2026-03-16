@@ -1,6 +1,7 @@
 package cz.cuni.mff.domanyoa.magicmaze.model;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 public class Hero {
     private Color color;
