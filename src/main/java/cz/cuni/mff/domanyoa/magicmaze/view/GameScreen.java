@@ -3,12 +3,9 @@ package cz.cuni.mff.domanyoa.magicmaze.view;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import cz.cuni.mff.domanyoa.magicmaze.model.Board;
-import cz.cuni.mff.domanyoa.magicmaze.model.Direction;
-import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
-import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
-import javafx.geometry.Insets;
+import cz.cuni.mff.domanyoa.magicmaze.model.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -21,15 +18,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
 
 public class GameScreen {
     private Logic logic;
     private List<Hero> heroes;
+    private List<Exit> exits;
     private Board board;
     private StackPane[][] grid;
     //private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
     Map<Hero, Shape> heroNodes = new HashMap<>();
+    Map<Exit, Shape> exitNodes = new HashMap<>();
 
     private Color getShapeColor(Shape shape) {
         Paint fill = shape.getFill();
@@ -43,6 +41,7 @@ public class GameScreen {
         this.logic = logic;
         heroes = logic.getHeroes();
         board = logic.getBoard();
+        exits = logic.getExits();
 
         // we can make graphics nicer later
         Shape RedHero = new Circle(10);
@@ -58,6 +57,21 @@ public class GameScreen {
         heroNodes.put(heroes.get(1), BlueHero);
         heroNodes.put(heroes.get(2), GreenHero);
         heroNodes.put(heroes.get(3), YellowHero);
+
+        Shape RedExit = new Rectangle(25,25);
+        RedExit.setFill(Color.RED);
+        Shape BlueExit = new Rectangle(25, 25);
+        BlueExit.setFill(Color.BLUE);
+        Shape GreenExit = new Rectangle(25, 25);
+        GreenExit.setFill(Color.GREEN);
+        Shape YellowExit = new Rectangle(25, 25);
+        YellowExit.setFill(Color.YELLOW);
+
+        exitNodes.put(exits.get(0), RedExit);
+        exitNodes.put(exits.get(1), BlueExit);
+        exitNodes.put(exits.get(2), GreenExit);
+        exitNodes.put(exits.get(3), YellowExit);
+
     }
 
     private void setupRightPanel(VBox panel){
@@ -126,6 +140,11 @@ public class GameScreen {
             //grid[y][x].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
             grid[y][x].getChildren().add(heroNodes.get(hero));
         }
+        for (Exit exit : exits){
+            int x = exit.getX();
+            int y = exit.getY();
+            grid[y][x].getChildren().add(exitNodes.get(exit));
+        }
     }
 
     private void graphicMove(Hero hero, Direction d){
@@ -151,6 +170,7 @@ public class GameScreen {
         root.getChildren().addAll(gridPane, rightPanel);
         Scene scene = new Scene(root);
 
+        AtomicBoolean gameEnded = new AtomicBoolean(false);
         scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
             KeyCode code = event.getCode();
             System.out.println("Is pressed: " + code);
@@ -159,24 +179,29 @@ public class GameScreen {
                     System.out.println("moving up");
                     graphicMove(hero, Direction.UP);
                     logic.move(hero, Direction.UP);
+                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getDOWN() && logic.canMove(hero, Direction.DOWN)){
                     System.out.println("moving down");
                     graphicMove(hero, Direction.DOWN);
                     logic.move(hero, Direction.DOWN);
+                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getLEFT() && logic.canMove(hero, Direction.LEFT)){
                     System.out.println("moving left");
                     graphicMove(hero, Direction.LEFT);
                     logic.move(hero, Direction.LEFT);
+                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getRIGHT() && logic.canMove(hero, Direction.RIGHT)){
                     System.out.println("moving right");
                     graphicMove(hero, Direction.RIGHT);
                     logic.move(hero, Direction.RIGHT);
+                    gameEnded.set(logic.gameEndedCheck());
                 }
             }
         });
+
 
         return scene;
     }

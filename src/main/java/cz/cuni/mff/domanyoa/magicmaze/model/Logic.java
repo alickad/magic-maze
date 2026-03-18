@@ -1,5 +1,8 @@
 package cz.cuni.mff.domanyoa.magicmaze.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Logic {
@@ -7,6 +10,7 @@ public class Logic {
     public static final int BOARD_WIDTH = 20;
     Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
     List<Hero> heroes;
+    List<Exit> exits;
     
     public Logic(List<Hero> heroes) {
         this.heroes = heroes;
@@ -20,6 +24,11 @@ public class Logic {
     }
 
     private void initializeSimpleBoard() {
+        Exit exit1 = new Exit(15, 4);
+        Exit exit2 = new Exit(5,10);
+        Exit exit3 = new Exit(4, 5);
+        Exit exit4 = new Exit(10, 3);
+        exits = Arrays.asList(exit1, exit2, exit3, exit4);
         // placeholder
     }
 
@@ -85,10 +94,20 @@ public class Logic {
         }
     }
 
+    public boolean gameEndedCheck() {
+        for (int i = 0; i < 4; i++){
+            Hero h = heroes.get(i);
+            Exit e =  exits.get(i);
+            if (h.getX() != e.getX() || h.getY() != e.getY()) return false;
+        }
+        return true;
+    }
+
     public List<Hero> getHeroes() {
         return heroes;
     }
     public Board getBoard() {
         return board;
     }
+    public List<Exit> getExits() {return exits;}
 }

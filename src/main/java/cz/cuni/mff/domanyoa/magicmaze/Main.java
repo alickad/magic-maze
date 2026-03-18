@@ -20,7 +20,7 @@ public class Main extends Application {
             startGame(logic, primaryStage);
         });
 
-        primaryStage.setScene(scene);  // ← Missing!
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 

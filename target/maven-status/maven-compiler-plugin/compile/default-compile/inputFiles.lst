@@ -1,6 +1,7 @@
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/Main.java
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Board.java
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Direction.java
+/home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Exit.java
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Hero.java
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Logic.java
 /home/alica/school/java/magic-maze/src/main/java/cz/cuni/mff/domanyoa/magicmaze/model/Tile.java
