@@ -1,6 +1,8 @@
 package cz.cuni.mff.domanyoa.magicmaze;
 
+import cz.cuni.mff.domanyoa.magicmaze.model.GameEndReason;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
+import cz.cuni.mff.domanyoa.magicmaze.view.EndScreen;
 import cz.cuni.mff.domanyoa.magicmaze.view.GameScreen;
 import cz.cuni.mff.domanyoa.magicmaze.view.SetupScreen;
 import javafx.application.Application;
@@ -25,9 +27,14 @@ public class Main extends Application {
     }
 
     private void startGame(Logic logic, Stage primaryStage) {
-        GameScreen gameScreen = new GameScreen(logic);
+        GameScreen gameScreen = new GameScreen(logic, reason -> showEndScreen(primaryStage, reason));
         Scene gameScene = gameScreen.createScene();
         primaryStage.setScene(gameScene);
+    }
+
+    private void showEndScreen(Stage stage, GameEndReason gameEndReason) {
+        EndScreen endScreen = new EndScreen(gameEndReason);
+        stage.setScene(endScreen.createScene());
     }
 
     public static void main(String[] args) {

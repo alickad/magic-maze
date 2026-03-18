@@ -25,6 +25,7 @@ public class GameScreen {
     private List<Exit> exits;
     private Board board;
     private StackPane[][] grid;
+    private final GameEndListener endListener;
     //private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
     Map<Hero, Shape> heroNodes = new HashMap<>();
     Map<Exit, Shape> exitNodes = new HashMap<>();
@@ -37,8 +38,9 @@ public class GameScreen {
         return null; // unknown type (gradient, pattern, etc.)
     }
 
-    public  GameScreen(Logic logic) {
+    public  GameScreen(Logic logic, GameEndListener endListener) {
         this.logic = logic;
+        this.endListener = endListener;
         heroes = logic.getHeroes();
         board = logic.getBoard();
         exits = logic.getExits();
@@ -170,7 +172,6 @@ public class GameScreen {
         root.getChildren().addAll(gridPane, rightPanel);
         Scene scene = new Scene(root);
 
-        AtomicBoolean gameEnded = new AtomicBoolean(false);
         scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
             KeyCode code = event.getCode();
             System.out.println("Is pressed: " + code);
@@ -179,25 +180,25 @@ public class GameScreen {
                     System.out.println("moving up");
                     graphicMove(hero, Direction.UP);
                     logic.move(hero, Direction.UP);
-                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getDOWN() && logic.canMove(hero, Direction.DOWN)){
                     System.out.println("moving down");
                     graphicMove(hero, Direction.DOWN);
                     logic.move(hero, Direction.DOWN);
-                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getLEFT() && logic.canMove(hero, Direction.LEFT)){
                     System.out.println("moving left");
                     graphicMove(hero, Direction.LEFT);
                     logic.move(hero, Direction.LEFT);
-                    gameEnded.set(logic.gameEndedCheck());
                 }
                 if (code == hero.getRIGHT() && logic.canMove(hero, Direction.RIGHT)){
                     System.out.println("moving right");
                     graphicMove(hero, Direction.RIGHT);
                     logic.move(hero, Direction.RIGHT);
-                    gameEnded.set(logic.gameEndedCheck());
+                }
+
+                if (logic.gameEndedCheck()){
+                    endListener.onGameEnd(GameEndReason.SUCCESS);
                 }
             }
         });
