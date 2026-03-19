@@ -27,8 +27,10 @@ public class GameScreen {
     private StackPane[][] grid;
     private final GameEndListener endListener;
     //private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
-    Map<Hero, Shape> heroNodes = new HashMap<>();
-    Map<Exit, Shape> exitNodes = new HashMap<>();
+    private Map<Hero, Shape> heroNodes = new HashMap<>();
+    private Map<Exit, Shape> exitNodes = new HashMap<>();
+    private Timer timer;
+
 
     private Color getShapeColor(Shape shape) {
         Paint fill = shape.getFill();
@@ -74,6 +76,7 @@ public class GameScreen {
         exitNodes.put(exits.get(2), GreenExit);
         exitNodes.put(exits.get(3), YellowExit);
 
+
     }
 
     private void setupRightPanel(VBox panel){
@@ -115,7 +118,14 @@ public class GameScreen {
         p4.getChildren().addAll(l4,h4);
 
         panel.getChildren().addAll(p1,p2,p3,p4);
+
+        Label TimeLabel = new Label();
+        this.timer = new Timer(10.0, TimeLabel, () ->
+                endListener.onGameEnd(GameEndReason.TIMEOUT));
+
+        panel.getChildren().add(TimeLabel);
     }
+
     private  StackPane BoardStackPane(){
         int cellSize = 40;
         StackPane cell = new StackPane();

@@ -13,4 +13,5 @@ cz/cuni/mff/domanyoa/magicmaze/view/GameEndListener.class
 cz/cuni/mff/domanyoa/magicmaze/model/Tile$1.class
 cz/cuni/mff/domanyoa/magicmaze/model/Direction.class
 cz/cuni/mff/domanyoa/magicmaze/view/GameScreen.class
+cz/cuni/mff/domanyoa/magicmaze/view/Timer.class
 cz/cuni/mff/domanyoa/magicmaze/model/Hero.class
