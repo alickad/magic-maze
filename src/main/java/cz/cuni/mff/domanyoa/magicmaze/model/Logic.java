@@ -109,6 +109,28 @@ public class Logic {
         return true;
     }
 
+    public boolean timeResetsCheck() {
+        for (Hero h : heroes) {
+            for  (TimeReset t : timeResets) {
+                if (t.isActive() && h.getX() == t.getX() && h.getY() == t.getY()) return true;
+            }
+        }
+        return false;
+    }
+    public TimeReset getTimeReset() {
+        for (Hero h : heroes) {
+            for  (TimeReset t : timeResets) {
+                if (t.isActive() && h.getX() == t.getX() && h.getY() == t.getY()){
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+    public void disableReset(TimeReset timeReset) {
+        timeReset.disable();
+    }
+
     public List<Hero> getHeroes() {
         return heroes;
     }
@@ -117,4 +139,7 @@ public class Logic {
     }
     public List<Exit> getExits() {return exits;}
     public List<TimeReset> getTimeResets() {return timeResets;}
+    public void removeReset(TimeReset timeReset) {
+        timeResets.remove(timeReset);
+    }
 }

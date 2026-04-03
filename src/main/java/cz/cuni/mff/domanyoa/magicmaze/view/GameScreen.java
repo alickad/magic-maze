@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.Group;
+import javafx.scene.layout.*;
 import javafx.scene.shape.SVGPath;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -12,10 +13,6 @@ import cz.cuni.mff.domanyoa.magicmaze.model.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -34,7 +31,7 @@ public class GameScreen {
     private Map<Exit, Shape> exitNodes = new HashMap<>();
     private Timer timer;
     private List<TimeReset> timeResets;
-    private Group hourglass;
+    private Map<TimeReset, Group> hourglasses = new HashMap<>();
 
 
     private Color getShapeColor(Shape shape) {
@@ -82,13 +79,21 @@ public class GameScreen {
         exitNodes.put(exits.get(2), GreenExit);
         exitNodes.put(exits.get(3), YellowExit);
 
+        for (TimeReset timeReset : timeResets) {
+            SVGPath timeResetShape = getHourglassPath();
+            Group hourglass = new Group(timeResetShape);
+            hourglasses.put(timeReset, hourglass);
+        }
 
+    }
+
+    private static SVGPath getHourglassPath() {
         SVGPath timeResetShape = new SVGPath();
         timeResetShape.setContent("M180-100v-50.26h79.95v-123.38q0-72.67 42.58-130.19Q345.1-461.36 413.54-480q-68.44-19.44-111.01-77.03-42.58-57.58-42.58-129.74v-122.97H180V-860h600v50.26h-79.95v122.97q0 72.16-42.58 129.74Q614.9-499.44 546.46-480q68.44 18.64 111.01 76.17 42.58 57.52 42.58 130.19v123.38H780V-100H180Z");
         timeResetShape.setFill(Color.DARKRED);
-        timeResetShape.setScaleX(0.03);
-        timeResetShape.setScaleY(0.03);
-        hourglass = new  Group(timeResetShape);
+        timeResetShape.setScaleX(0.037);
+        timeResetShape.setScaleY(0.037);
+        return timeResetShape;
     }
 
     private void setupRightPanel(VBox panel){
@@ -131,7 +136,7 @@ public class GameScreen {
 
         panel.getChildren().addAll(p1,p2,p3,p4);
 
-        Label TimeLabel = new Label("AAAAAAAAAAAA");
+        Label TimeLabel = new Label();
         TimeLabel.setStyle("-fx-text-fill: red;");
         this.timer = new Timer(20.0, TimeLabel, () ->
                 endListener.onGameEnd(GameEndReason.TIMEOUT));
@@ -173,7 +178,7 @@ public class GameScreen {
         for (TimeReset timeReset : timeResets){
             int x = timeReset.getX();
             int y = timeReset.getY();
-            grid[y][x].getChildren().add(hourglass);
+            grid[y][x].getChildren().add(hourglasses.get(timeReset));
         }
     }
 
@@ -228,6 +233,17 @@ public class GameScreen {
 
                 if (logic.gameEndedCheck()){
                     endListener.onGameEnd(GameEndReason.SUCCESS);
+                }
+                if (logic.timeResetsCheck()){
+                    timer.reset();
+                    TimeReset timeReset = logic.getTimeReset();
+
+                    Group visualHourglass = hourglasses.get(timeReset);
+                    if (visualHourglass != null && visualHourglass.getParent() instanceof Pane) {
+                        ((Pane)visualHourglass.getParent()).getChildren().remove(visualHourglass);
+                    }
+                    hourglasses.remove(timeReset);
+                    logic.disableReset(timeReset);
                 }
             }
         });
