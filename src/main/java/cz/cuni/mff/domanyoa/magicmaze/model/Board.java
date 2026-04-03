@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import static java.lang.Math.max;
+
 public class Board {
     private int BOARD_HEIGHT;
     private int BOARD_WIDTH;
@@ -33,25 +35,28 @@ public class Board {
             int[] d =  dir[rand.nextInt(4)];
             int newX = x + d[1];
             int newY = y + d[0];
-            if (d[0] == 0) verticalWallVisited[(y+newY)/2][(x+newX)/2] = true;
-            if (d[1] == 0) horizontalWallVisited[(y+newY)/2][(x+newX)/2] = true;
-            if (!boardVisited[newY][newX]){
-                boardVisited[newY][newX] = true;
-                bfsQueue.add(new int[]{newY, newX});
-            }
+            if (newX < 0 || newX >= BOARD_WIDTH || newY < 0 || newY >= BOARD_HEIGHT){continue;}
+            if (d[0] == 0) verticalWallVisited[max(y, newY)][max(x, newX)] = true;
+            if (d[1] == 0) horizontalWallVisited[max(y, newY)][max(y, newY)] = true;
+            //if (!boardVisited[newY][newX]) {
+            boardVisited[newY][newX] = true;
+            bfsQueue.add(new int[]{newY, newX});
+            //}
+            System.out.println("Building the board");
         }
 
         board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                board[i][j] = new Tile(i, j, !horizontalWallVisited[i][j], !horizontalWallVisited[i+1][j],
-                                            !verticalWallVisited[i][j], !verticalWallVisited[i][j + 1]);
+                board[i][j] = new Tile(i, j, horizontalWallVisited[i][j], horizontalWallVisited[i+1][j],
+                                            verticalWallVisited[i][j], verticalWallVisited[i][j + 1]);
             }
+            System.out.println("Board has been built");
         }
     }
 
 
-    Tile tileAt(int y, int x) {
+    public Tile tileAt(int y, int x) {
         return board[y][x];  // board[row][col] = board[y][x]
     }
 

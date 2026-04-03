@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.layout.*;
 import javafx.scene.shape.SVGPath;
@@ -32,6 +33,7 @@ public class GameScreen {
     private Timer timer;
     private List<TimeReset> timeResets;
     private Map<TimeReset, Group> hourglasses = new HashMap<>();
+    private final int cellSize = 40;
 
 
     private Color getShapeColor(Shape shape) {
@@ -138,17 +140,16 @@ public class GameScreen {
 
         Label TimeLabel = new Label();
         TimeLabel.setStyle("-fx-text-fill: red;");
-        this.timer = new Timer(20.0, TimeLabel, () ->
+        this.timer = new Timer(60.0, TimeLabel, () ->
                 endListener.onGameEnd(GameEndReason.TIMEOUT));
 
         panel.getChildren().add(TimeLabel);
     }
 
     private  StackPane BoardStackPane(){
-        int cellSize = 40;
         StackPane cell = new StackPane();
         cell.setPrefSize(cellSize, cellSize);
-        Rectangle floor = new  Rectangle(40,40);
+        Rectangle floor = new  Rectangle(cellSize,cellSize);
         floor.setFill(Color.web("#E8D8B0"));
         floor.setStroke(Color.DARKGRAY);
 
@@ -157,11 +158,33 @@ public class GameScreen {
     }
 
     private void setupGrid(GridPane gridPane, StackPane[][] grid){
+        System.out.println("setupGrid");
         for (int i = 0; i < board.height(); i++){
             for (int j = 0; j < board.width(); j++){
                 StackPane cell = BoardStackPane();
+                if (board.tileAt(i,j).isWall(Direction.UP)){
+                    Rectangle topWall = new Rectangle(cellSize, 2, Color.BLACK);
+                    cell.getChildren().add(topWall);
+                    StackPane.setAlignment(topWall, Pos.TOP_CENTER);
+                }
+                if (board.tileAt(i,j).isWall(Direction.DOWN)){
+                    Rectangle bottomWall = new Rectangle(cellSize, 2, Color.BLACK);
+                    cell.getChildren().add(bottomWall);
+                    StackPane.setAlignment(bottomWall, Pos.BOTTOM_CENTER);
+                }
+                if (board.tileAt(i,j).isWall(Direction.LEFT)){
+                    Rectangle leftWall = new Rectangle(2, cellSize, Color.BLACK);
+                    cell.getChildren().add(leftWall);
+                    StackPane.setAlignment(leftWall, Pos.CENTER_LEFT);
+                }
+                if (board.tileAt(i,j).isWall(Direction.RIGHT)){
+                    Rectangle rightWall = new Rectangle(2, cellSize, Color.BLACK);
+                    cell.getChildren().add(rightWall);
+                    StackPane.setAlignment(rightWall, Pos.CENTER_RIGHT);
+                }
                 grid[i][j] = cell;
                 gridPane.add(grid[i][j], j,i);
+                System.out.println("Setting up...");
             }
         }
         for (Hero hero : heroes){
@@ -180,6 +203,7 @@ public class GameScreen {
             int y = timeReset.getY();
             grid[y][x].getChildren().add(hourglasses.get(timeReset));
         }
+        System.out.println("setup complete");
     }
 
     private void graphicMove(Hero hero, Direction d){
