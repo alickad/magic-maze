@@ -9,6 +9,7 @@ public class Tile {
     private boolean rightWall = false;
     private boolean isEmpty = false;
 
+
     public Tile(int x, int y, boolean upWall, boolean downWall, boolean leftWall, boolean rightWall) {
         occupied = false;
         this.x = x;

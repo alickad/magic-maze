@@ -1,13 +1,10 @@
 package cz.cuni.mff.domanyoa.magicmaze.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Logic {
-    public static final int BOARD_HEIGHT = 20;
-    public static final int BOARD_WIDTH = 20;
+    private int BOARD_HEIGHT = 20;
+    private int BOARD_WIDTH = 20;
     Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
     List<Hero> heroes;
     List<Exit> exits;
@@ -18,6 +15,16 @@ public class Logic {
         // Simple board initialization for now - all tiles are walkable
         initializeSimpleBoard();
         
+        // Mark initial hero positions as occupied
+        for (Hero hero : heroes) {
+            board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
+        }
+    }
+    public Logic(List<Hero> heroes, int board_height, int board_width) {
+        this.BOARD_WIDTH = board_width;
+        this.BOARD_HEIGHT = board_height;
+        this.heroes = heroes;
+        generateBoard();
         // Mark initial hero positions as occupied
         for (Hero hero : heroes) {
             board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
@@ -36,6 +43,23 @@ public class Logic {
         TimeReset timeReset2 = new TimeReset(18, 18);
         timeResets =  Arrays.asList(timeReset1, timeReset2);
         // dalsi placeholder
+    }
+    private void generateBoard() {
+        Random rand = new Random();
+        int randomNum = rand.nextInt(4);
+        int[][] directions = {{1,1}, {1,-1}, {-1,1}, {-1,-1}};
+        boolean[][] visited = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
+        Queue<int[]> bfsQueue = new LinkedList<>();
+        for (int i = 0; i < BOARD_HEIGHT; i++) {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                visited[i][j] = false;
+                for (Hero h : heroes){
+                    visited[h.getY()][h.getX()] = true;
+                    bfsQueue.add(new int[]{h.getY(), h.getX()});
+                }
+            }
+        }
+
     }
 
     public boolean canMove(Hero hero, Direction d){
