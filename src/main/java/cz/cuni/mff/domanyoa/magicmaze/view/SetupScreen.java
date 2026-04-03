@@ -71,8 +71,9 @@ public class SetupScreen {
         this.onSetupComplete = onSetupComplete;
         VBox root = new VBox(20);
         Label title = new Label("Setup");
-        Label instructions = new Label("Instructions for selection");
+        Label instructions = new Label("Select the control you want to change using arrows, then press the desired key");
         GridPane gridPane = initialGrid();
+
         Button startButton =  new Button("Start the game");
 
         startButton.setOnAction(e -> {
