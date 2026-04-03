@@ -11,6 +11,7 @@ public class Logic {
     Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
     List<Hero> heroes;
     List<Exit> exits;
+    List<TimeReset> timeResets;
     
     public Logic(List<Hero> heroes) {
         this.heroes = heroes;
@@ -30,6 +31,11 @@ public class Logic {
         Exit exit4 = new Exit(10, 3);
         exits = Arrays.asList(exit1, exit2, exit3, exit4);
         // placeholder
+
+        TimeReset timeReset1 = new TimeReset(1, 1);
+        TimeReset timeReset2 = new TimeReset(18, 18);
+        timeResets =  Arrays.asList(timeReset1, timeReset2);
+        // dalsi placeholder
     }
 
     public boolean canMove(Hero hero, Direction d){
@@ -110,4 +116,5 @@ public class Logic {
         return board;
     }
     public List<Exit> getExits() {return exits;}
+    public List<TimeReset> getTimeResets() {return timeResets;}
 }

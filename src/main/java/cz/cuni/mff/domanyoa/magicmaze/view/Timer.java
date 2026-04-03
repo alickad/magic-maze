@@ -7,19 +7,21 @@ import javafx.util.Duration;
 
 public class Timer {
     private double totalTime;
+    private double remainingTime;
     private Label label;
     private final Runnable onFinished;
     Timeline timeline;
 
     public Timer(double totalTime, Label label, Runnable onFinished) {
         this.totalTime = totalTime;
+        this.remainingTime = totalTime;
         this.label = label;
         this.onFinished = onFinished;
 
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.1), event -> {
-            timeRemaining -= 0.1;
-            if (timeRemaining <= 0) {
-                timeRemaining = 0;
+            remainingTime -= 0.1;
+            if (remainingTime <= 0) {
+                remainingTime = 0;
                 updateLabel();
                 timeline.stop();
                 onFinished.run();
@@ -30,14 +32,13 @@ public class Timer {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    double timeRemaining = totalTime;
 
-    public double getTimeRemaining() {
-        return timeRemaining;
-    }
+    // public double getTimeRemaining() {
+    //    return remainingTime;
+    //}
 
     private void updateLabel(){
-        label.setText("Time Remaining: " + timeRemaining);
+        label.setText("Time Remaining: " + remainingTime);
     }
 
     public void start(){
@@ -47,7 +48,7 @@ public class Timer {
         timeline.pause();
     }
     public void reset(){
-        timeRemaining = totalTime;
+        remainingTime = totalTime;
         updateLabel();
         timeline.playFromStart();
     }

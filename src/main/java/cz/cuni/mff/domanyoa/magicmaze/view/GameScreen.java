@@ -3,6 +3,9 @@ package cz.cuni.mff.domanyoa.magicmaze.view;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javafx.scene.Group;
+import javafx.scene.shape.SVGPath;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import cz.cuni.mff.domanyoa.magicmaze.model.*;
@@ -30,6 +33,8 @@ public class GameScreen {
     private Map<Hero, Shape> heroNodes = new HashMap<>();
     private Map<Exit, Shape> exitNodes = new HashMap<>();
     private Timer timer;
+    private List<TimeReset> timeResets;
+    private Group hourglass;
 
 
     private Color getShapeColor(Shape shape) {
@@ -46,6 +51,7 @@ public class GameScreen {
         heroes = logic.getHeroes();
         board = logic.getBoard();
         exits = logic.getExits();
+        timeResets = logic.getTimeResets();
 
         // we can make graphics nicer later
         Shape RedHero = new Circle(10);
@@ -77,6 +83,12 @@ public class GameScreen {
         exitNodes.put(exits.get(3), YellowExit);
 
 
+        SVGPath timeResetShape = new SVGPath();
+        timeResetShape.setContent("M180-100v-50.26h79.95v-123.38q0-72.67 42.58-130.19Q345.1-461.36 413.54-480q-68.44-19.44-111.01-77.03-42.58-57.58-42.58-129.74v-122.97H180V-860h600v50.26h-79.95v122.97q0 72.16-42.58 129.74Q614.9-499.44 546.46-480q68.44 18.64 111.01 76.17 42.58 57.52 42.58 130.19v123.38H780V-100H180Z");
+        timeResetShape.setFill(Color.DARKRED);
+        timeResetShape.setScaleX(0.03);
+        timeResetShape.setScaleY(0.03);
+        hourglass = new  Group(timeResetShape);
     }
 
     private void setupRightPanel(VBox panel){
@@ -119,8 +131,9 @@ public class GameScreen {
 
         panel.getChildren().addAll(p1,p2,p3,p4);
 
-        Label TimeLabel = new Label();
-        this.timer = new Timer(10.0, TimeLabel, () ->
+        Label TimeLabel = new Label("AAAAAAAAAAAA");
+        TimeLabel.setStyle("-fx-text-fill: red;");
+        this.timer = new Timer(20.0, TimeLabel, () ->
                 endListener.onGameEnd(GameEndReason.TIMEOUT));
 
         panel.getChildren().add(TimeLabel);
@@ -157,6 +170,11 @@ public class GameScreen {
             int y = exit.getY();
             grid[y][x].getChildren().add(exitNodes.get(exit));
         }
+        for (TimeReset timeReset : timeResets){
+            int x = timeReset.getX();
+            int y = timeReset.getY();
+            grid[y][x].getChildren().add(hourglass);
+        }
     }
 
     private void graphicMove(Hero hero, Direction d){
@@ -181,6 +199,7 @@ public class GameScreen {
         setupRightPanel(rightPanel);
         root.getChildren().addAll(gridPane, rightPanel);
         Scene scene = new Scene(root);
+        timer.start();
 
         scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, event -> {
             KeyCode code = event.getCode();
