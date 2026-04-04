@@ -39,7 +39,15 @@ public class Board {
             }
             System.out.println("Building the board");
         }
-
+        for (int i = 0; i < BOARD_HEIGHT*BOARD_WIDTH/7; i++) {
+            Random rand = new Random();
+            int randY = rand.nextInt(BOARD_HEIGHT);
+            int randX = rand.nextInt(BOARD_WIDTH);
+            verticalWallVisited[randY][randX] = true;
+            randY = rand.nextInt(BOARD_HEIGHT);
+            randX = rand.nextInt(BOARD_WIDTH);
+            horizontalWallVisited[randY][randX] = true;
+        }
         board = new Tile[BOARD_HEIGHT][BOARD_WIDTH];
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {

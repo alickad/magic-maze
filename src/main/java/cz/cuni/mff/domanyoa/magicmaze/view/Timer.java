@@ -38,7 +38,7 @@ public class Timer {
     //}
 
     private void updateLabel(){
-        label.setText("Time Remaining: " + remainingTime);
+        label.setText("Time Remaining: " + String.format("%.2g%n", remainingTime));
     }
 
     public void start(){
