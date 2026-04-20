@@ -3,13 +3,22 @@ package cz.cuni.mff.domanyoa.magicmaze.model;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
+/// Class that represents logic of a hero (one play piece).
 public class Hero {
     private int x,y;
     private KeyCode moveUpKey;
     private KeyCode moveDownKey;
     private KeyCode moveLeftKey;
     private KeyCode moveRightKey;
-    public Hero(int x, int y, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
+
+    /// Constructor of a hero.
+    /// @param x the x-coordinate (horizontal) of hero
+    /// @param y the y-coordinate (vertical) of hero
+    /// @param moveUp using which keypress can we move hero up
+    /// @param moveDown using which keypress can we move hero down
+    /// @param moveLeft using which keypress can we move hero left
+    /// @param moveRight using which keypress can we move hero right
+    public Hero(int y, int x, KeyCode moveUp, KeyCode moveDown, KeyCode moveLeft, KeyCode moveRight) {
         this.x = x;
         this.y = y;
         this.moveUpKey = moveUp;
@@ -17,6 +26,8 @@ public class Hero {
         this.moveLeftKey = moveLeft;
         this.moveRightKey = moveRight;
     }
+
+    /// A simple constructor used mainly for debugging.
     public Hero(){
         this.x = 100;
         this.y = 100;
@@ -26,9 +37,13 @@ public class Hero {
         this.moveRightKey = KeyCode.RIGHT;
     }
 
+    /// Get the x-coordinate (horizontal) of a hero
     public int getX() {return x;}
+    /// Get the y-coordinate (vertical) of a hero
     public int getY() {return y;}
 
+    ///  Move the hero, if it can be moved.
+    /// @param d direction to move the hero
     public void move(Direction d) {
          switch (d) {
              case UP -> this.y -= 1;
@@ -38,6 +53,9 @@ public class Hero {
          }
     }
 
+    /// Set the code of keypress that moves a hero.
+    /// @param d direction to set
+    /// @param k the keypress code
     public void setKey(Direction d, KeyCode k) {
         switch (d) {
             case UP -> this.moveUpKey = k;
@@ -47,13 +65,15 @@ public class Hero {
         }
     }
 
-    public KeyCode getUP() {return moveUpKey;}
-    public KeyCode getDOWN() {return moveDownKey;}
-    public KeyCode getLEFT() {return moveLeftKey;}
-    public KeyCode getRIGHT() {return moveRightKey;}
-
-    public void setUP(KeyCode code){this.moveUpKey = code;}
-    public void setDOWN(KeyCode code){this.moveDownKey = code;}
-    public void setLEFT(KeyCode code){this.moveLeftKey = code;}
-    public void setRIGHT(KeyCode code){this.moveRightKey = code;}
+    /// Get the code of keypress that moves a hero.
+    /// @param d the direction of movement
+    public KeyCode getKey(Direction d) {
+        switch (d) {
+            case UP: return moveUpKey;
+            case DOWN: return moveDownKey;
+            case LEFT: return moveLeftKey;
+            case RIGHT: return moveRightKey;
+        }
+        return null;
+    }
 }

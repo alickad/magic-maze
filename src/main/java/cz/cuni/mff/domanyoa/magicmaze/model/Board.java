@@ -4,14 +4,19 @@ import java.util.*;
 
 import static java.lang.Math.max;
 
+/// Class generating and holding the playing board.
 public class Board {
     private int BOARD_HEIGHT;
     private int BOARD_WIDTH;
     private Tile[][] board;
 
+    /// Constructor that generates a random board of tiles with walls with given size.
+    /// @param board_height height of board
+    /// @param board_width width of board
     public Board(int board_height, int board_width) {
         BOARD_HEIGHT = board_height;
         BOARD_WIDTH = board_width;
+
         boolean[][] boardVisited  = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
         boolean[][] verticalWallVisited = new boolean[BOARD_HEIGHT+1][BOARD_WIDTH+1];
         boolean[][] horizontalWallVisited = new boolean[BOARD_HEIGHT+1][BOARD_WIDTH+1];
@@ -58,14 +63,18 @@ public class Board {
         }
     }
 
-
+    /// Returns a Tile from given coordinates on playing board.
+    /// @param y the y-coordinate (vertical)
+    /// @param x the x-coordinate (horizontal)
     public Tile tileAt(int y, int x) {
         return board[y][x];  // board[row][col] = board[y][x]
     }
 
+    /// Returns the width of playing board.
     public int width(){
         return BOARD_WIDTH;
     }
+    /// Returns the height of the playing board.
     public int height(){
         return BOARD_HEIGHT;
     }

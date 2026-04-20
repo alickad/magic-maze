@@ -2,6 +2,7 @@ package cz.cuni.mff.domanyoa.magicmaze.model;
 
 import java.util.*;
 
+/// Class that takes all the logic of the game into one place.
 public class Logic {
     private int BOARD_HEIGHT = 20;
     private int BOARD_WIDTH = 20;
@@ -9,7 +10,9 @@ public class Logic {
     List<Hero> heroes;
     List<Exit> exits;
     List<TimeReset> timeResets;
-    
+
+    /// Constructor based on heroes. Mainly for debugging.
+    /// @param heroes List of heroes
     public Logic(List<Hero> heroes) {
         this.heroes = heroes;
         // Simple board initialization for now - all tiles are walkable
@@ -20,6 +23,11 @@ public class Logic {
             board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
         }
     }
+
+    /// Constructor from heroes and board size. Generates a random board.
+    /// @param heroes list of heroes
+    /// @param board_width the width of playing board
+    /// @param board_height the height of playing board
     public Logic(List<Hero> heroes, int board_height, int board_width) {
         this.BOARD_WIDTH = board_width;
         this.BOARD_HEIGHT = board_height;
@@ -31,6 +39,7 @@ public class Logic {
         }
     }
 
+    /// This is a simple example of a board. Used mainly for debugging.
     private void initializeSimpleBoard() {
         Exit exit1 = new Exit(15, 4);
         Exit exit2 = new Exit(5,10);
@@ -44,6 +53,7 @@ public class Logic {
         timeResets =  Arrays.asList(timeReset1, timeReset2);
         // dalsi placeholder
     }
+    /// This generates a board ???
     private void generateBoard() {
         Random rand = new Random();
         int randomNum = rand.nextInt(4);
@@ -62,37 +72,44 @@ public class Logic {
 
     }
 
+    /// True iff hero can move in given direction based on logic.
+    /// @param d direction
+    /// @param hero hero
     public boolean canMove(Hero hero, Direction d){
         int x = hero.getX();
         int y = hero.getY();
         switch (d){
             case UP -> {
                 if (y <= 0 || board.tileAt(y,x).isWall(Direction.UP)) return false;
-                if (board.tileAt(y-1,x).isEmpty() || board.tileAt(y-1, x).isOccupied()) return false;
+                if (board.tileAt(y-1, x).isOccupied()) return false;
                 if (board.tileAt(y-1,x).isWall(Direction.DOWN)) return false;
                 return true;
             }
             case DOWN -> {
                 if (y >= BOARD_HEIGHT-1 || board.tileAt(y,x).isWall(Direction.DOWN)) return false;
-                if (board.tileAt(y + 1, x).isEmpty() || board.tileAt(y + 1, x).isOccupied()) return false;
+                if (board.tileAt(y + 1, x).isOccupied()) return false;
                 if (board.tileAt(y + 1, x).isWall(Direction.UP))  return false;
                 return true;
             }
             case LEFT -> {
                 if (x <= 0 || board.tileAt(y,x).isWall(Direction.LEFT)) return false;
-                if (board.tileAt(y, x-1).isEmpty() || board.tileAt(y, x-1).isOccupied()) return false;
+                if (board.tileAt(y, x-1).isOccupied()) return false;
                 if (board.tileAt(y, x-1).isWall(Direction.RIGHT))  return false;
                 return true;
             }
             case RIGHT -> {
                 if (x >= BOARD_WIDTH-1 || board.tileAt(y,x).isWall(Direction.RIGHT)) return false;
-                if (board.tileAt(y, x+1).isEmpty() || board.tileAt(y, x+1).isOccupied()) return false;
+                if (board.tileAt(y, x+1).isOccupied()) return false;
                 if (board.tileAt(y, x+1).isWall(Direction.LEFT))  return false;
                 return true;
             }
         }
         return false;
     }
+
+    /// If the hero can be moved in a given direction, move it.
+    /// @param hero hero
+    /// @param d direction
     public void move(Hero hero, Direction d){
         if (!canMove(hero, d)) return;
         int x = hero.getX();
@@ -124,6 +141,7 @@ public class Logic {
         }
     }
 
+    /// True iff the game has ended (all missions are complete or the time is out).
     public boolean gameEndedCheck() {
         for (int i = 0; i < 4; i++){
             Hero h = heroes.get(i);
@@ -133,6 +151,7 @@ public class Logic {
         return true;
     }
 
+    /// True iff there is a hero standing on an active time resetter.
     public boolean timeResetsCheck() {
         for (Hero h : heroes) {
             for  (TimeReset t : timeResets) {
@@ -141,6 +160,8 @@ public class Logic {
         }
         return false;
     }
+
+    /// Get the time resetter object some hero is standing on.
     public TimeReset getTimeReset() {
         for (Hero h : heroes) {
             for  (TimeReset t : timeResets) {
@@ -151,18 +172,29 @@ public class Logic {
         }
         return null;
     }
+
+    /// After the resetter has been used, it should be disabled.
     public void disableReset(TimeReset timeReset) {
         timeReset.disable();
     }
 
+    /// Get list of all heroes.
     public List<Hero> getHeroes() {
         return heroes;
     }
+
+    /// Get the board.
     public Board getBoard() {
         return board;
     }
+
+    /// get list of all exits.
     public List<Exit> getExits() {return exits;}
+
+    /// get list of all time resets
     public List<TimeReset> getTimeResets() {return timeResets;}
+
+    /// remove time reset from logic
     public void removeReset(TimeReset timeReset) {
         timeResets.remove(timeReset);
     }
