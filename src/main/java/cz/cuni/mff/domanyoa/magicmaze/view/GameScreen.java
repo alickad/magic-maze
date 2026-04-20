@@ -6,9 +6,9 @@ import java.util.Map;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.shape.SVGPath;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import cz.cuni.mff.domanyoa.magicmaze.model.*;
 import javafx.scene.Scene;
@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -27,21 +26,25 @@ public class GameScreen {
     private Board board;
     private StackPane[][] grid;
     private final GameEndListener endListener;
-    //private final String defaultStyle = "-fx-border-color: lightgray; -fx-background-color: white;";
-    private Map<Hero, Shape> heroNodes = new HashMap<>();
-    private Map<Exit, Shape> exitNodes = new HashMap<>();
+    private Map<Hero, Group> heroNodes = new HashMap<>();
+    private Map<Exit, Group> exitNodes = new HashMap<>();
     private Timer timer;
     private List<TimeReset> timeResets;
     private Map<TimeReset, Group> hourglasses = new HashMap<>();
     private final int cellSize = 40;
 
 
-    private Color getShapeColor(Shape shape) {
-        Paint fill = shape.getFill();
-        if (fill instanceof Color color) {
-            return color;
+    private Color getShapeColor(Group shape) {
+        Node firstChild = shape.getChildren().get(0);
+
+        if (firstChild instanceof Shape sh) {
+            Paint fill = sh.getFill();
+
+            if (fill instanceof Color color) {
+                return color;
+            }
         }
-        return null; // unknown type (gradient, pattern, etc.)
+        return null;
     }
 
     public  GameScreen(Logic logic, GameEndListener endListener) {
@@ -53,33 +56,25 @@ public class GameScreen {
         timeResets = logic.getTimeResets();
 
         // we can make graphics nicer later
-        Shape RedHero = new Circle(10);
-        RedHero.setFill(Color.RED);
-        Shape BlueHero = new Circle(10);
-        BlueHero.setFill(Color.BLUE);
-        Shape GreenHero = new Circle(10);
-        GreenHero.setFill(Color.GREEN);
-        Shape YellowHero = new Circle(10);
-        YellowHero.setFill(Color.YELLOW);
+        SVGPath RedHero = getHeroPath(Color.RED);
+        SVGPath GreenHero = getHeroPath(Color.GREEN);
+        SVGPath BlueHero = getHeroPath(Color.BLUE);
+        SVGPath YellowHero = getHeroPath(Color.YELLOW);
 
-        heroNodes.put(heroes.get(0), RedHero);
-        heroNodes.put(heroes.get(1), BlueHero);
-        heroNodes.put(heroes.get(2), GreenHero);
-        heroNodes.put(heroes.get(3), YellowHero);
+        heroNodes.put(heroes.get(0), new Group(RedHero));
+        heroNodes.put(heroes.get(1), new Group(BlueHero));
+        heroNodes.put(heroes.get(2), new Group(GreenHero));
+        heroNodes.put(heroes.get(3), new Group(YellowHero));
 
-        Shape RedExit = new Rectangle(25,25);
-        RedExit.setFill(Color.RED);
-        Shape BlueExit = new Rectangle(25, 25);
-        BlueExit.setFill(Color.BLUE);
-        Shape GreenExit = new Rectangle(25, 25);
-        GreenExit.setFill(Color.GREEN);
-        Shape YellowExit = new Rectangle(25, 25);
-        YellowExit.setFill(Color.YELLOW);
+        SVGPath RedExit = getExitPath(Color.RED);
+        SVGPath BlueExit = getExitPath(Color.BLUE);
+        SVGPath GreenExit = getExitPath(Color.GREEN);
+        SVGPath YellowExit = getExitPath(Color.YELLOW);
 
-        exitNodes.put(exits.get(0), RedExit);
-        exitNodes.put(exits.get(1), BlueExit);
-        exitNodes.put(exits.get(2), GreenExit);
-        exitNodes.put(exits.get(3), YellowExit);
+        exitNodes.put(exits.get(0), new Group(RedExit));
+        exitNodes.put(exits.get(1), new Group(BlueExit));
+        exitNodes.put(exits.get(2), new Group(GreenExit));
+        exitNodes.put(exits.get(3), new Group(YellowExit));
 
         for (TimeReset timeReset : timeResets) {
             SVGPath timeResetShape = getHourglassPath();
@@ -89,6 +84,15 @@ public class GameScreen {
 
     }
 
+    private static SVGPath getHeroPath(Color color) {
+        SVGPath heroShape = new SVGPath();
+        heroShape.setContent("M184.74-104.74v-177.29q96.15-67.59 133.01-134.38 36.86-66.79 51.53-118.96H262.59v-47.89h105.26q-22.08-21.47-34.51-50.09-12.43-28.61-12.43-62.28 0-66.61 46.5-113.12 46.5-46.51 113.09-46.51 65.59 0 112.72 46.51 47.13 46.51 47.13 113.12 0 33.67-12.81 62.28-12.81 28.62-34.89 50.09h105.64v47.89h-106.3q13.89 51.79 50.26 119 36.38 67.2 133.01 134.34v177.29H184.74Z");
+        heroShape.setFill(color);
+        heroShape.setScaleX(0.04);
+        heroShape.setScaleY(0.04);
+        return heroShape;
+    }
+
     private static SVGPath getHourglassPath() {
         SVGPath timeResetShape = new SVGPath();
         timeResetShape.setContent("M180-100v-50.26h79.95v-123.38q0-72.67 42.58-130.19Q345.1-461.36 413.54-480q-68.44-19.44-111.01-77.03-42.58-57.58-42.58-129.74v-122.97H180V-860h600v50.26h-79.95v122.97q0 72.16-42.58 129.74Q614.9-499.44 546.46-480q68.44 18.64 111.01 76.17 42.58 57.52 42.58 130.19v123.38H780V-100H180Z");
@@ -96,6 +100,15 @@ public class GameScreen {
         timeResetShape.setScaleX(0.037);
         timeResetShape.setScaleY(0.037);
         return timeResetShape;
+    }
+
+    private static SVGPath getExitPath(Color color) {
+        SVGPath exitShape = new SVGPath();
+        exitShape.setContent("M189.06-113.3q-31 0-53.38-22.38-22.38-22.38-22.38-53.38v-186.4h75.76v186.4h581.88v-581.88H189.06v186.4H113.3v-186.4q0-31.06 22.38-53.49 22.38-22.43 53.38-22.43h581.88q31.06 0 53.49 22.43 22.43 22.43 22.43 53.49v581.88q0 31-22.43 53.38Q802-113.3 770.94-113.3H189.06ZM419-276.7l-55.04-55.47 109.79-109.95H113.3v-75.76h360.45L363.96-627.83 419-683.3 622.3-480 419-276.7Z");
+        exitShape.setFill(color);
+        exitShape.setScaleX(0.037);
+        exitShape.setScaleY(0.037);
+        return exitShape;
     }
 
     private void setupRightPanel(VBox panel){
