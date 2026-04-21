@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"cz.cuni.mff.domanyoa.magicmaze"},{"l":"cz.cuni.mff.domanyoa.magicmaze.model"},{"l":"cz.cuni.mff.domanyoa.magicmaze.view"}];updateSearchResults();
