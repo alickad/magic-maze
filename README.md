@@ -1,5 +1,5 @@
 ## Intro
-This is a simple game coded entirely in Java (using JavaFX) as a school project. 
+This is a simple game coded entirely in Java 21 (using JavaFX) as a school project. 
 It is inspired by the board game "Magic maze" (simplified).
 
 ### How to run the program
@@ -8,7 +8,7 @@ It is inspired by the board game "Magic maze" (simplified).
 git clone git@github.com:alickad/magic-maze.git
 git clone https://github.com/alickad/magic-maze.git
 ```
-- open terminal, go to the main folder and run (you need Maven)
+- open terminal, go to the main folder and run (you need Maven and Java)
 ```
 mvn compile
 mvn javafx:run

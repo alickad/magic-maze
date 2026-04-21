@@ -5,7 +5,7 @@ public class Exit {
     private int x;
     private int y;
 
-    /// Contructor of the class.
+    /// Constructor of the class.
     /// @param y the y-coordinate (vertical) of exit on board
     /// @param x the x-coordinate (horizontal) of exit on board
     public Exit(int y, int x) {
@@ -13,10 +13,12 @@ public class Exit {
         this.y = y;
     }
     /// Get x-coordinate (horizontal) of exit.
+    /// @return x-coordinate of exit
     public int getX() {
         return x;
     }
     /// Get y-coordinate (vertical) of exit.
+    /// @return y-coordinate of exit
     public int getY() {
         return y;
     }

@@ -18,6 +18,7 @@ public class EndScreen {
     }
 
     /// This creates the scene of ending screen
+    /// @return the scene of endScreen
     public Scene createScene() {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);

@@ -35,6 +35,7 @@ public class GameScreen {
     private final int cellSize = 40;
 
     /// Get the color of item in Group.
+    /// @return color
     private Color getShapeColor(Group shape) {
         Node firstChild = shape.getChildren().get(0);
 
@@ -89,6 +90,7 @@ public class GameScreen {
     }
 
     /// Generates a SVG path for hero icon.
+    /// @return svg path
     private static SVGPath getHeroPath(Color color) {
         SVGPath heroShape = new SVGPath();
         heroShape.setContent("M184.74-104.74v-177.29q96.15-67.59 133.01-134.38 36.86-66.79 51.53-118.96H262.59v-47.89h105.26q-22.08-21.47-34.51-50.09-12.43-28.61-12.43-62.28 0-66.61 46.5-113.12 46.5-46.51 113.09-46.51 65.59 0 112.72 46.51 47.13 46.51 47.13 113.12 0 33.67-12.81 62.28-12.81 28.62-34.89 50.09h105.64v47.89h-106.3q13.89 51.79 50.26 119 36.38 67.2 133.01 134.34v177.29H184.74Z");
@@ -99,6 +101,7 @@ public class GameScreen {
     }
 
     /// Generates a SVG path for hourglass icon.
+    /// @return svg path
     private static SVGPath getHourglassPath() {
         SVGPath timeResetShape = new SVGPath();
         timeResetShape.setContent("M180-100v-50.26h79.95v-123.38q0-72.67 42.58-130.19Q345.1-461.36 413.54-480q-68.44-19.44-111.01-77.03-42.58-57.58-42.58-129.74v-122.97H180V-860h600v50.26h-79.95v122.97q0 72.16-42.58 129.74Q614.9-499.44 546.46-480q68.44 18.64 111.01 76.17 42.58 57.52 42.58 130.19v123.38H780V-100H180Z");
@@ -109,6 +112,7 @@ public class GameScreen {
     }
 
     /// Generates a SVG path for exit icon.
+    /// @return svg path
     private static SVGPath getExitPath(Color color) {
         SVGPath exitShape = new SVGPath();
         exitShape.setContent("M189.06-113.3q-31 0-53.38-22.38-22.38-22.38-22.38-53.38v-186.4h75.76v186.4h581.88v-581.88H189.06v186.4H113.3v-186.4q0-31.06 22.38-53.49 22.38-22.43 53.38-22.43h581.88q31.06 0 53.49 22.43 22.43 22.43 22.43 53.49v581.88q0 31-22.43 53.38Q802-113.3 770.94-113.3H189.06ZM419-276.7l-55.04-55.47 109.79-109.95H113.3v-75.76h360.45L363.96-627.83 419-683.3 622.3-480 419-276.7Z");
@@ -168,6 +172,7 @@ public class GameScreen {
     }
 
     /// One graphics tile on the board.
+    /// @return one graphics tile on the board
     private  StackPane BoardStackPane(){
         StackPane cell = new StackPane();
         cell.setPrefSize(cellSize, cellSize);
@@ -243,6 +248,7 @@ public class GameScreen {
     }
 
     /// The main thing that makes the game playable.
+    /// @return scene
     public Scene  createScene() {
         HBox root = new HBox();
         GridPane gridPane = new GridPane();
