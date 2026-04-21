@@ -66,15 +66,18 @@ public class Board {
     /// Returns a Tile from given coordinates on playing board.
     /// @param y the y-coordinate (vertical)
     /// @param x the x-coordinate (horizontal)
+    /// @return tile on coordinates x,y on the board
     public Tile tileAt(int y, int x) {
         return board[y][x];  // board[row][col] = board[y][x]
     }
 
     /// Returns the width of playing board.
+    /// @return width of board
     public int width(){
         return BOARD_WIDTH;
     }
     /// Returns the height of the playing board.
+    /// @return height of board
     public int height(){
         return BOARD_HEIGHT;
     }

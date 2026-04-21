@@ -75,6 +75,7 @@ public class Logic {
     /// True iff hero can move in given direction based on logic.
     /// @param d direction
     /// @param hero hero
+    /// @return true iff hero can move in direction d
     public boolean canMove(Hero hero, Direction d){
         int x = hero.getX();
         int y = hero.getY();
@@ -142,6 +143,7 @@ public class Logic {
     }
 
     /// True iff the game has ended (all missions are complete or the time is out).
+    /// @return boolean, true iff the game has ended
     public boolean gameEndedCheck() {
         for (int i = 0; i < 4; i++){
             Hero h = heroes.get(i);
@@ -152,6 +154,7 @@ public class Logic {
     }
 
     /// True iff there is a hero standing on an active time resetter.
+    /// @return boolean, true iff some hero is standing on an active time-resetter
     public boolean timeResetsCheck() {
         for (Hero h : heroes) {
             for  (TimeReset t : timeResets) {
@@ -162,6 +165,7 @@ public class Logic {
     }
 
     /// Get the time resetter object some hero is standing on.
+    /// @return a time resetter, on which is a hero standing.
     public TimeReset getTimeReset() {
         for (Hero h : heroes) {
             for  (TimeReset t : timeResets) {
@@ -174,27 +178,33 @@ public class Logic {
     }
 
     /// After the resetter has been used, it should be disabled.
+    /// @param timeReset the timeReset to be disabled
     public void disableReset(TimeReset timeReset) {
         timeReset.disable();
     }
 
     /// Get list of all heroes.
+    /// @return list of all heroes
     public List<Hero> getHeroes() {
         return heroes;
     }
 
     /// Get the board.
+    /// @return the playing board
     public Board getBoard() {
         return board;
     }
 
     /// get list of all exits.
+    /// @return list of all exits
     public List<Exit> getExits() {return exits;}
 
     /// get list of all time resets
+    /// @return list of all time resetters
     public List<TimeReset> getTimeResets() {return timeResets;}
 
     /// remove time reset from logic
+    /// @param timeReset timeReset to be removed
     public void removeReset(TimeReset timeReset) {
         timeResets.remove(timeReset);
     }

@@ -38,8 +38,10 @@ public class Hero {
     }
 
     /// Get the x-coordinate (horizontal) of a hero
+    /// @return x-coordinate
     public int getX() {return x;}
     /// Get the y-coordinate (vertical) of a hero
+    /// @return y-coordinate
     public int getY() {return y;}
 
     ///  Move the hero, if it can be moved.
@@ -67,6 +69,7 @@ public class Hero {
 
     /// Get the code of keypress that moves a hero.
     /// @param d the direction of movement
+    /// @return key that moves the hero in direction d.
     public KeyCode getKey(Direction d) {
         switch (d) {
             case UP: return moveUpKey;

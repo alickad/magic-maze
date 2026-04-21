@@ -27,6 +27,8 @@ public class Tile {
     }
 
     /// A simple constructor mainly for debugging.
+    /// @param x x-coordinate
+    /// @param y y-coordinate
     public Tile(int x, int y) {
         occupied = false;
         this.x = x;
@@ -34,11 +36,14 @@ public class Tile {
     }
 
     /// Return true iff there is a hero on this tile.
+    /// @return boolean, true iff tile is occupied by hero
     public boolean isOccupied() {return occupied;}
-    /// Set the tile occupied (there is a hero standing).
+    /// Set the tile occupied or not (there is a hero standing).
+    /// @param b bool to set occupied to
     public void setOccupied(boolean b) {occupied = b;}
     ///  Return true iff there is a wall in Diretion d.
     /// @param d the direction in question
+    /// @return bool, true iff there is a wall in the given direction
     public boolean isWall(Direction d){
         switch (d){
             case UP -> {return upWall;}
