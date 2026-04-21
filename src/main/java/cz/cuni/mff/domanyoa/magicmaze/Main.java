@@ -9,9 +9,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/// The class that sticks it all together.
 public class Main extends Application {
     Logic logic;
 
+    /// Start the setup stage (SetupScreen).
     @Override
     public void start(Stage primaryStage) {
         SetupScreen setupScreen = new SetupScreen();
@@ -26,17 +28,20 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    /// start the main stage (GameScreen).
     private void startGame(Logic logic, Stage primaryStage) {
         GameScreen gameScreen = new GameScreen(logic, reason -> showEndScreen(primaryStage, reason));
         Scene gameScene = gameScreen.createScene();
         primaryStage.setScene(gameScene);
     }
 
+    /// Start the last stage after the game ended (EndScreen).
     private void showEndScreen(Stage stage, GameEndReason gameEndReason) {
         EndScreen endScreen = new EndScreen(gameEndReason);
         stage.setScene(endScreen.createScene());
     }
 
+    /// Launches the game.
     public static void main(String[] args) {
         launch(args);
     }

@@ -7,13 +7,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+/// Graphics of the screen that shows at the end of the game.
 public class EndScreen {
     GameEndReason endReason;
 
+    /// Constructor based on the reason the game ended
+    /// @param gameEndReason reason the game ended (times up or win)
     public EndScreen(GameEndReason gameEndReason) {
         this.endReason = gameEndReason;
     }
 
+    /// This creates the scene of ending screen
     public Scene createScene() {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -31,8 +35,7 @@ public class EndScreen {
             nah.setWrapText(true);
             root.getChildren().add(nah);
         }
-        Scene scene = new Scene(root, 800, 600);
 
-        return scene;
+        return new Scene(root, 800, 600);
     }
 }

@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
+/// Class to control the timer in the game.
 public class Timer {
     private double totalTime;
     private double remainingTime;
@@ -12,6 +13,10 @@ public class Timer {
     private final Runnable onFinished;
     Timeline timeline;
 
+    /// Constructs the class.
+    /// @param totalTime the total time to finish the game
+    /// @param label label of the timer in GameScreen
+    /// @param onFinished what to do if time runs out
     public Timer(double totalTime, Label label, Runnable onFinished) {
         this.totalTime = totalTime;
         this.remainingTime = totalTime;
@@ -32,21 +37,16 @@ public class Timer {
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-
-    // public double getTimeRemaining() {
-    //    return remainingTime;
-    //}
-
+    /// Updates the label in GameScreen.
     private void updateLabel(){
         label.setText("Time Remaining: " + String.format("%.2g%n", remainingTime));
     }
 
+    /// Start the timer.
     public void start(){
         timeline.play();
     }
-    public void pause(){
-        timeline.pause();
-    }
+    /// Reset the timer, so it starts from totalTime again.
     public void reset(){
         remainingTime = totalTime;
         updateLabel();

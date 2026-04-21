@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import cz.cuni.mff.domanyoa.magicmaze.model.Direction;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
@@ -16,11 +17,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/// Initial screen, where controls can be chosen.
 public class SetupScreen {
     List<Hero> heroes;
     private Consumer<List<Hero>> onSetupComplete;
     private StackPane[][] grid;
 
+    /// The initial screen with default values.
     public SetupScreen() {
         Hero hero1 = new Hero(10,10, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
         Hero hero2 = new Hero(11,10, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
@@ -30,14 +33,15 @@ public class SetupScreen {
 
         grid = new StackPane[4][4];
         for (int i = 0; i < 4; i++) {
-            grid[0][i] = createStackPane(heroes.get(i).getUP().getName());
-            grid[1][i] = createStackPane(heroes.get(i).getDOWN().getName());
-            grid[2][i] = createStackPane(heroes.get(i).getLEFT().getName());
-            grid[3][i] = createStackPane(heroes.get(i).getRIGHT().getName());
+            grid[0][i] = createStackPane(heroes.get(i).getKey(Direction.UP).getName());
+            grid[1][i] = createStackPane(heroes.get(i).getKey(Direction.DOWN).getName());
+            grid[2][i] = createStackPane(heroes.get(i).getKey(Direction.LEFT).getName());
+            grid[3][i] = createStackPane(heroes.get(i).getKey(Direction.RIGHT).getName());
         }
         grid[0][0].setStyle("-fx-background-color: orange;");
     }
 
+    /// One cell in initial controls table.
     private StackPane createStackPane(String key) {
         StackPane pane = new StackPane();
         Label label = new Label(key);
@@ -46,6 +50,8 @@ public class SetupScreen {
         pane.setStyle("-fx-border-color: black; -fx-background-color: white;");
         return pane;
     }
+
+    /// Create the initial grid o controls.
     private GridPane initialGrid(){
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
@@ -60,13 +66,15 @@ public class SetupScreen {
         gridPane.add(new Label("YELLOW") , 3, 4);
         for (int i = 0; i < heroes.size(); i++) {
             for (int j = 0; j < 4; j++) {
-                gridPane.add(grid[i][j], j, i);  // Swap: column=j, row=i
+                gridPane.add(grid[i][j], j, i);
             }
         }
 
         return gridPane;
     }
 
+    /// This makes the setup screen.
+    /// When the setup is complete, game continues to GameScreen.
     public Scene createScene(Consumer<List<Hero>> onSetupComplete) {
         this.onSetupComplete = onSetupComplete;
         VBox root = new VBox(20);
@@ -101,10 +109,10 @@ public class SetupScreen {
             if (code.isDigitKey() || code.isLetterKey()){
                 Hero hero = heroes.get(selectedColumn.get());
                 switch (selectedRow.get()){
-                    case 0 -> hero.setUP(code);
-                    case 1 -> hero.setDOWN(code);
-                    case 2 -> hero.setLEFT(code);
-                    case 3 -> hero.setRIGHT(code);
+                    case 0 -> hero.setKey(Direction.UP, code);
+                    case 1 -> hero.setKey(Direction.DOWN, code);
+                    case 2 -> hero.setKey(Direction.LEFT, code);
+                    case 3 -> hero.setKey(Direction.RIGHT, code);
                 }
                 StackPane currentCell = grid[selectedRow.get()][selectedColumn.get()];
                 Label label = (Label) currentCell.getChildren().get(0);  // Get the Label child
