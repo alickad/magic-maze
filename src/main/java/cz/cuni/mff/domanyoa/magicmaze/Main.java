@@ -9,7 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/// The class that sticks it all together.
+/// The class that sticks it all together. It controls the stages of the game.
 public class Main extends Application {
     Logic logic;
 
