@@ -28,9 +28,9 @@ public class Hero {
     }
 
     /// A simple constructor used mainly for debugging.
-    public Hero(){
-        this.x = 100;
-        this.y = 100;
+    public Hero(int y, int x){
+        this.x = x;
+        this.y = y;
         this.moveUpKey = KeyCode.UP;
         this.moveDownKey = KeyCode.DOWN;
         this.moveLeftKey = KeyCode.LEFT;
