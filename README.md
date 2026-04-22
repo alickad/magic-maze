@@ -1,7 +1,7 @@
 ## Intro
 This is a simple game coded entirely in Java 21 (using JavaFX) as a school project. 
-It is inspired by the board game "Magic maze" (simplified).
-
+It is inspired by the board game "Magic maze" (simplified). It can be found at https://github.com/alickad/magic-maze
+.
 ### How to run the program
 - unzip downloaded folder or clone the repo with one of the following lines
 ```
@@ -14,9 +14,11 @@ mvn compile
 mvn javafx:run
 ```
 - after that initial compilation, you can allways run the game again with just
-```
-mvn javafx:run
-```
+```mvn javafx:run```
+- to generate documentation of code, run
+```mvn javadoc:javadoc```
+The generated website can be found in 
+```magic-maze/target/reports/apidocs/index.html```
 
 ## How it's intended to be played
 This is a cooperative game for 4 players.
