@@ -165,8 +165,11 @@ public class GameScreen {
 
         Label TimeLabel = new Label();
         TimeLabel.setStyle("-fx-text-fill: red;");
-        this.timer = new Timer(60.0, TimeLabel, () ->
-                endListener.onGameEnd(GameEndReason.TIMEOUT));
+        this.timer = new Timer(60.0, TimeLabel, () -> {
+            if (!logic.gameEndedCheck()) {
+                endListener.onGameEnd(GameEndReason.TIMEOUT);
+            }
+        });
 
         panel.getChildren().add(TimeLabel);
     }
