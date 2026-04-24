@@ -2,6 +2,7 @@ package cz.cuni.mff.domanyoa.magicmaze;
 
 import cz.cuni.mff.domanyoa.magicmaze.model.GameEndReason;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
+import cz.cuni.mff.domanyoa.magicmaze.model.GameSettings;
 import cz.cuni.mff.domanyoa.magicmaze.view.EndScreen;
 import cz.cuni.mff.domanyoa.magicmaze.view.GameScreen;
 import cz.cuni.mff.domanyoa.magicmaze.view.SetupScreen;
@@ -20,7 +21,8 @@ public class Main extends Application {
 
         Scene scene = setupScreen.createScene(settings -> {
             System.out.println("Setup is done!");
-            logic = new Logic(settings); // 20, 20?
+            logic = new Logic(settings);
+            System.out.println("2. Logic object created");
             startGame(logic, primaryStage);
         });
 
@@ -30,9 +32,12 @@ public class Main extends Application {
 
     /// start the main stage (GameScreen).
     private void startGame(Logic logic, Stage primaryStage) {
+        System.out.println("3. Entering startGame");
         GameScreen gameScreen = new GameScreen(logic, reason -> showEndScreen(primaryStage, reason));
         Scene gameScene = gameScreen.createScene();
+        System.out.println("4. GameScene created");
         primaryStage.setScene(gameScene);
+        System.out.println("5. Scene swapped!");
     }
 
     /// Start the last stage after the game ended (EndScreen).

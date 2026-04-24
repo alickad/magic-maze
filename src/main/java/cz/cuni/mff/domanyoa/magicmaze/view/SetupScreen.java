@@ -12,6 +12,7 @@ import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -23,7 +24,6 @@ public class SetupScreen {
     List<Hero> heroes;
     private int height = 20;
     private int width = 20;
-    private double totalTime = 60;
     private Consumer<GameSettings> onSetupComplete;
     private StackPane[][] grid;
 
@@ -80,7 +80,7 @@ public class SetupScreen {
     /// This makes the setup screen.
     /// When the setup is complete, game continues to GameScreen.
     /// @return scene of setupScreen
-    public Scene createScene() {
+    public Scene createScene(Consumer<GameSettings> onSetupComplete) {
         VBox root = new VBox(20);
         Label title = new Label("Setup");
         Label instructions = new Label("Select the control you want to change using arrows, then press the desired key");
@@ -88,12 +88,42 @@ public class SetupScreen {
 
         Button startButton =  new Button("Start the game");
 
+        /////////////////////////////////////////////////////////////////////////
+        TextField boardHeightField = new TextField("20");
+        boardHeightField.setId("boardHeightField");
+        TextField boardWidthField = new TextField("20");
+        boardWidthField.setId("boardWidthField");
+        TextField totalTimeField = new TextField("60.0");
+        totalTimeField.setId("totalTimeField");
+
         startButton.setOnAction(e -> {
-            GameSettings settings =  new GameSettings(heroes, width, height, totalTime);  // "Calling back" with the heroes
-            onSetupComplete.accept(settings);
+            try {
+                int w = Integer.parseInt(boardWidthField.getText().trim());
+                int h = Integer.parseInt(boardHeightField.getText().trim());
+                double time =  Double.parseDouble(totalTimeField.getText().trim());
+
+                if (w < 5 || h < 5) {
+                    System.out.println("Board too small! Set to at least 5x5.");
+                    return;
+                }
+
+                for (int i = 0; i < heroes.size(); i++) {
+                    Hero hero = heroes.get(i);
+                    if (i == 0 || i == 2) hero.setX(w / 2);
+                    else hero.setX(w / 2 + 1);
+                    if (i == 0 || i == 3) hero.setY(h / 2);
+                    else hero.setY(h / 2 + 1);
+                }
+
+                GameSettings settings = new GameSettings(heroes, w, h, time);
+                onSetupComplete.accept(settings);
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Please enter valid numbers for width, height and time!");
+            }
         });
 
-        root.getChildren().addAll(title, instructions, gridPane, startButton);
+        root.getChildren().addAll(title, instructions, gridPane, new Label("height:"), boardHeightField, new Label("width"), boardWidthField, new Label("timer (s)"), totalTimeField, startButton);
         Scene scene = new Scene(root, 800, 600);
 
         AtomicInteger selectedRow = new AtomicInteger(0);

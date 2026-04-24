@@ -8,8 +8,8 @@ public class Logic {
     private int BOARD_WIDTH = 20;
     Board board;
     List<Hero> heroes;
-    List<Exit> exits;
-    List<TimeReset> timeResets;
+    List<Exit> exits = new ArrayList<>();
+    List<TimeReset> timeResets =  new ArrayList<>();
     private int numOfResets = 3;
     private double totalTime;
 
@@ -34,10 +34,11 @@ public class Logic {
         board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
         this.heroes = settings.heroes();
         this.totalTime = settings.initialTime();
-        initializeSimpleBoard();
+        generateBoard();
         // Mark initial hero positions as occupied
         for (Hero hero : heroes) {
-            board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
+            System.out.println(hero.getX() + " " + hero.getY());
+            board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
         }
     }
 
@@ -66,6 +67,7 @@ public class Logic {
         for (TimeReset timeReset : timeResets) {
             if (timeReset.getX() == x && timeReset.getY() == y) return true;
         }
+
         return false;
     }
     /// This generates the exits and time resets to the board.
