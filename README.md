@@ -8,16 +8,11 @@ It is inspired by the board game "Magic maze" (simplified). It can be found at h
 git clone git@github.com:alickad/magic-maze.git
 git clone https://github.com/alickad/magic-maze.git
 ```
-- open terminal, go to the main folder and run (you need Maven and Java)
-```
-mvn compile
-mvn javafx:run
-```
-- after that initial compilation, you can allways run the game again with just
+- to start the game, open terminal, go to the main folder and run (you need Maven and Java)
 ```mvn javafx:run```
 - to generate documentation of code, run
 ```mvn javadoc:javadoc```
-The generated website can be found in 
+The generated website can be found at 
 ```magic-maze/target/reports/apidocs/index.html```
 
 ## How it's intended to be played
@@ -31,11 +26,16 @@ You can see the controls on the right side panel.
 You need to be fast, the time is limited! There are special tiles with an hourglass 
 that resets the countdown. However, each of them can only be used once.
 
+Right after starting the game, most of the board will be black. You need to move the heroes
+to explore unexplored tiles and their contents.
+
 Good luck!
 
 ### Customize!
 Right on the first screen you can choose which keyboard keys 
-control which movement of which hero.
+control which movement of which hero. You can choose how big you want the board to be and how
+much time you want to have per timer.
+
 You can mix it up,
 use different keys for different difficulty. Just try to
 not have one key for more movements, that could make the game

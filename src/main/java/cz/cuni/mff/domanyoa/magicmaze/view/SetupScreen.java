@@ -79,6 +79,7 @@ public class SetupScreen {
 
     /// This makes the setup screen.
     /// When the setup is complete, game continues to GameScreen.
+    /// @param onSetupComplete the settings to send after setup is complete
     /// @return scene of setupScreen
     public Scene createScene(Consumer<GameSettings> onSetupComplete) {
         VBox root = new VBox(20);

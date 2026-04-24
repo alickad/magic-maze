@@ -28,6 +28,8 @@ public class Hero {
     }
 
     /// A simple constructor used mainly for debugging.
+    /// @param x x-coordinate
+    /// @param y y-coordinate
     public Hero(int y, int x){
         this.x = x;
         this.y = y;
