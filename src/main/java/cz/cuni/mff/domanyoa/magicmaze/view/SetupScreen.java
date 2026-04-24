@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import cz.cuni.mff.domanyoa.magicmaze.model.Direction;
+import cz.cuni.mff.domanyoa.magicmaze.model.GameSettings;
 import cz.cuni.mff.domanyoa.magicmaze.model.Hero;
 import cz.cuni.mff.domanyoa.magicmaze.model.Logic;
 import javafx.scene.Scene;
@@ -20,15 +21,18 @@ import javafx.scene.paint.Color;
 /// Initial screen, where controls can be chosen.
 public class SetupScreen {
     List<Hero> heroes;
-    private Consumer<List<Hero>> onSetupComplete;
+    private int height = 20;
+    private int width = 20;
+    private double totalTime = 60;
+    private Consumer<GameSettings> onSetupComplete;
     private StackPane[][] grid;
 
     /// The initial screen with default values.
     public SetupScreen() {
-        Hero hero1 = new Hero(10,10, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
-        Hero hero2 = new Hero(11,10, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
-        Hero hero3 = new Hero(10, 11, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
-        Hero hero4 = new Hero(11, 11, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
+        Hero hero1 = new Hero(height/2,width/2, KeyCode.Q, KeyCode.Z, KeyCode.DIGIT7, KeyCode.H);
+        Hero hero2 = new Hero(height/2 + 1,width/2, KeyCode.W, KeyCode.X, KeyCode.DIGIT8, KeyCode.J);
+        Hero hero3 = new Hero(height/2,width/2 + 1, KeyCode.E, KeyCode.C, KeyCode.DIGIT9, KeyCode.K);
+        Hero hero4 = new Hero(height/2 + 1,width/2 + 1, KeyCode.R, KeyCode.V, KeyCode.DIGIT0, KeyCode.L);
         heroes = Arrays.asList(hero1, hero2, hero3, hero4);
 
         grid = new StackPane[4][4];
@@ -75,10 +79,8 @@ public class SetupScreen {
 
     /// This makes the setup screen.
     /// When the setup is complete, game continues to GameScreen.
-    /// @param onSetupComplete what was set up
     /// @return scene of setupScreen
-    public Scene createScene(Consumer<List<Hero>> onSetupComplete) {
-        this.onSetupComplete = onSetupComplete;
+    public Scene createScene() {
         VBox root = new VBox(20);
         Label title = new Label("Setup");
         Label instructions = new Label("Select the control you want to change using arrows, then press the desired key");
@@ -87,7 +89,8 @@ public class SetupScreen {
         Button startButton =  new Button("Start the game");
 
         startButton.setOnAction(e -> {
-            onSetupComplete.accept(heroes);  // "Calling back" with the heroes
+            GameSettings settings =  new GameSettings(heroes, width, height, totalTime);  // "Calling back" with the heroes
+            onSetupComplete.accept(settings);
         });
 
         root.getChildren().addAll(title, instructions, gridPane, startButton);

@@ -6,10 +6,12 @@ import java.util.*;
 public class Logic {
     private int BOARD_HEIGHT = 20;
     private int BOARD_WIDTH = 20;
-    Board board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
+    Board board;
     List<Hero> heroes;
     List<Exit> exits;
     List<TimeReset> timeResets;
+    private int numOfResets = 3;
+    private double totalTime;
 
     /// Constructor based on heroes. Mainly for debugging.
     /// @param heroes List of heroes
@@ -25,14 +27,14 @@ public class Logic {
     }
 
     /// Constructor from heroes and board size. Generates a random board.
-    /// @param heroes list of heroes
-    /// @param board_width the width of playing board
-    /// @param board_height the height of playing board
-    public Logic(List<Hero> heroes, int board_height, int board_width) {
-        this.BOARD_WIDTH = board_width;
-        this.BOARD_HEIGHT = board_height;
-        this.heroes = heroes;
-        generateBoard();
+    /// @param settings settings from initial stage
+    public Logic(GameSettings settings) {
+        this.BOARD_WIDTH = settings.boardWidth();
+        this.BOARD_HEIGHT = settings.boardHeight();
+        board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
+        this.heroes = settings.heroes();
+        this.totalTime = settings.initialTime();
+        initializeSimpleBoard();
         // Mark initial hero positions as occupied
         for (Hero hero : heroes) {
             board.tileAt(hero.getX(), hero.getY()).setOccupied(true);
@@ -41,7 +43,7 @@ public class Logic {
 
     /// This is a simple example of a board. Used mainly for debugging.
     private void initializeSimpleBoard() {
-        Exit exit1 = new Exit(15, 4);
+        Exit exit1 = new Exit(14, 4);
         Exit exit2 = new Exit(5,10);
         Exit exit3 = new Exit(4, 5);
         Exit exit4 = new Exit(10, 3);
@@ -49,27 +51,46 @@ public class Logic {
         // placeholder
 
         TimeReset timeReset1 = new TimeReset(1, 1);
-        TimeReset timeReset2 = new TimeReset(18, 18);
+        TimeReset timeReset2 = new TimeReset(4, 4);
         timeResets =  Arrays.asList(timeReset1, timeReset2);
         // dalsi placeholder
     }
-    /// This generates a board ???
+
+    private boolean coordinateOccupied(int y, int x) {
+        for (Exit exit : exits) {
+            if (exit.getX() == x && exit.getY() == y) return true;
+        }
+        for (Hero hero : heroes){
+            if (hero.getX() == x && hero.getY() == y) return true;
+        }
+        for (TimeReset timeReset : timeResets) {
+            if (timeReset.getX() == x && timeReset.getY() == y) return true;
+        }
+        return false;
+    }
+    /// This generates the exits and time resets to the board.
     private void generateBoard() {
         Random rand = new Random();
-        int randomNum = rand.nextInt(4);
-        int[][] directions = {{1,1}, {1,-1}, {-1,1}, {-1,-1}};
-        boolean[][] visited = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
-        Queue<int[]> bfsQueue = new LinkedList<>();
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
-            for (int j = 0; j < BOARD_WIDTH; j++) {
-                visited[i][j] = false;
-                for (Hero h : heroes){
-                    visited[h.getY()][h.getX()] = true;
-                    bfsQueue.add(new int[]{h.getY(), h.getX()});
-                }
+        for (int i = 0; i < 4; i++) {
+            int x = rand.nextInt(BOARD_WIDTH);
+            int y = rand.nextInt(BOARD_HEIGHT);
+            while (coordinateOccupied(y, x)) {
+                x = rand.nextInt(BOARD_WIDTH);
+                y = rand.nextInt(BOARD_HEIGHT);
             }
+            Exit exit = new Exit(y,x);
+            exits.add(exit);
         }
-
+        for (int i = 0; i<numOfResets; i++) {
+            int x = rand.nextInt(BOARD_WIDTH);
+            int y = rand.nextInt(BOARD_HEIGHT);
+            while (coordinateOccupied(y, x)) {
+                x = rand.nextInt(BOARD_WIDTH);
+                y = rand.nextInt(BOARD_HEIGHT);
+            }
+            TimeReset timeReset = new TimeReset(y,x);
+            timeResets.add(timeReset);
+        }
     }
 
     /// True iff hero can move in given direction based on logic.

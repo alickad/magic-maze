@@ -9,6 +9,7 @@ public class Board {
     private int BOARD_HEIGHT;
     private int BOARD_WIDTH;
     private Tile[][] board;
+    private double randRemWalls = 0.125;
 
     /// Constructor that generates a random board of tiles with walls with given size.
     /// @param board_height height of board
@@ -20,6 +21,8 @@ public class Board {
         boolean[][] boardVisited  = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
         boolean[][] verticalWallVisited = new boolean[BOARD_HEIGHT+1][BOARD_WIDTH+1];
         boolean[][] horizontalWallVisited = new boolean[BOARD_HEIGHT+1][BOARD_WIDTH+1];
+
+        // Generating walls with DFS
         Stack<int[]> dfsStack = new Stack<>();
         dfsStack.add(new int[]{1, 1});
         boardVisited[1][1] = true;
@@ -44,7 +47,9 @@ public class Board {
             }
             System.out.println("Building the board");
         }
-        for (int i = 0; i < BOARD_HEIGHT*BOARD_WIDTH/7; i++) {
+
+        // Erase some random walls
+        for (int i = 0; i < BOARD_HEIGHT*BOARD_WIDTH*randRemWalls; i++) {
             Random rand = new Random();
             int randY = rand.nextInt(BOARD_HEIGHT);
             int randX = rand.nextInt(BOARD_WIDTH);

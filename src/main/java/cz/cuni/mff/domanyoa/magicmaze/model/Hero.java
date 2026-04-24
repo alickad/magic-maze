@@ -44,6 +44,13 @@ public class Hero {
     /// @return y-coordinate
     public int getY() {return y;}
 
+    /// Set the x-coordinate
+    /// @param x x-coordinate
+    public void setX(int x) {this.x = x;}
+    /// Set the y-coordinate
+    /// @param y y-coordinate
+    public void setY(int y) {this.y = y;}
+
     ///  Move the hero, if it can be moved.
     /// @param d direction to move the hero
     public void move(Direction d) {

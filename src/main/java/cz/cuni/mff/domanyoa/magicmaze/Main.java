@@ -18,9 +18,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         SetupScreen setupScreen = new SetupScreen();
 
-        Scene scene = setupScreen.createScene(heroes -> {
+        Scene scene = setupScreen.createScene(settings -> {
             System.out.println("Setup is done!");
-            logic = new Logic(heroes);
+            logic = new Logic(settings); // 20, 20?
             startGame(logic, primaryStage);
         });
 
