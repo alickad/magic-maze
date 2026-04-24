@@ -33,6 +33,7 @@ public class GameScreen {
     private List<TimeReset> timeResets;
     private Map<TimeReset, Group> hourglasses = new HashMap<>();
     private final int cellSize = 40;
+    private final int discoverDiameter = 2;
 
     /// Get the color of item in Group.
     /// @return color
@@ -218,12 +219,7 @@ public class GameScreen {
                 System.out.println("Setting up...");
             }
         }
-        for (Hero hero : heroes){
-            int x =  hero.getX();
-            int y = hero.getY();
-            //grid[y][x].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
-            grid[y][x].getChildren().add(heroNodes.get(hero));
-        }
+
         for (Exit exit : exits){
             int x = exit.getX();
             int y = exit.getY();
@@ -234,7 +230,43 @@ public class GameScreen {
             int y = timeReset.getY();
             grid[y][x].getChildren().add(hourglasses.get(timeReset));
         }
+
+        // Add black squares to unexplored tiles
+        for (int i = 0; i < board.height(); i++){
+            for (int j = 0; j < board.width(); j++){
+                StackPane cell = grid[i][j];
+                Rectangle blackSquare  = new Rectangle(cellSize, cellSize, Color.BLACK);
+                blackSquare.setId("blackSquare");
+                blackSquare.setStroke(Color.BLACK);
+                cell.getChildren().add(blackSquare);
+            }
+        }
+
+        for (Hero hero : heroes){
+            int x =  hero.getX();
+            int y = hero.getY();
+            //grid[y][x].setStyle("-fx-background-color:" + hero.getColor().name() + ";");
+            grid[y][x].getChildren().add(heroNodes.get(hero));
+            discoverAround(y, x);
+        }
         System.out.println("setup complete");
+    }
+
+    /// Removes black squares from tiles close to some hero.
+    /// The tiles remain discovered and visible till the end.
+    private void discoverAround(int y, int x){
+        for (int dx = -discoverDiameter; dx < discoverDiameter+1; dx++){
+            for (int dy = -discoverDiameter; dy < discoverDiameter+1;dy++){
+                int targetX = x + dx;
+                int targetY = y + dy;
+                if (targetX >=0 && targetY >= 0 && targetX < board.width() && targetY < board.height()){
+                    Node blackSquare  = grid[targetY][targetX].lookup("#blackSquare");
+                    if (blackSquare != null){
+                        grid[targetY][targetX].getChildren().remove(blackSquare);
+                    }
+                }
+            }
+        }
     }
 
     /// Moves a hero.
@@ -272,21 +304,25 @@ public class GameScreen {
                     System.out.println("moving up");
                     graphicMove(hero, Direction.UP);
                     logic.move(hero, Direction.UP);
+                    discoverAround(hero.getY(), hero.getX());
                 }
                 if (code == hero.getKey(Direction.DOWN) && logic.canMove(hero, Direction.DOWN)){
                     System.out.println("moving down");
                     graphicMove(hero, Direction.DOWN);
                     logic.move(hero, Direction.DOWN);
+                    discoverAround(hero.getY(), hero.getX());
                 }
                 if (code == hero.getKey(Direction.LEFT) && logic.canMove(hero, Direction.LEFT)){
                     System.out.println("moving left");
                     graphicMove(hero, Direction.LEFT);
                     logic.move(hero, Direction.LEFT);
+                    discoverAround(hero.getY(), hero.getX());
                 }
                 if (code == hero.getKey(Direction.RIGHT) && logic.canMove(hero, Direction.RIGHT)){
                     System.out.println("moving right");
                     graphicMove(hero, Direction.RIGHT);
                     logic.move(hero, Direction.RIGHT);
+                    discoverAround(hero.getY(), hero.getX());
                 }
 
                 if (logic.gameEndedCheck()){
