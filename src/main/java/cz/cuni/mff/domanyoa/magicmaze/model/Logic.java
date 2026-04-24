@@ -22,7 +22,7 @@ public class Logic {
         
         // Mark initial hero positions as occupied
         for (Hero hero : heroes) {
-            board.tileAt(hero.getY(), hero.getX()).setOccupied(true); //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
         }
     }
 

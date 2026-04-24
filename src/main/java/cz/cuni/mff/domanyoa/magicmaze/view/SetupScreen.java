@@ -96,6 +96,13 @@ public class SetupScreen {
         TextField totalTimeField = new TextField("60.0");
         totalTimeField.setId("totalTimeField");
 
+        boardHeightField.setFocusTraversable(false);
+        boardWidthField.setFocusTraversable(false);
+        totalTimeField.setFocusTraversable(false);
+        startButton.setFocusTraversable(false);
+
+        root.setOnMouseClicked(e -> root.requestFocus());
+
         startButton.setOnAction(e -> {
             try {
                 int w = Integer.parseInt(boardWidthField.getText().trim());
@@ -131,6 +138,11 @@ public class SetupScreen {
         scene.addEventFilter(javafx.scene.input.KeyEvent.KEY_PRESSED, keyEvent -> {
             KeyCode code = keyEvent.getCode();
             System.out.println("Is pressed: " + code);
+
+            if (scene.getFocusOwner() instanceof TextField) {
+                return;
+            }
+
             if (code.isArrowKey()){
                 keyEvent.consume();
                 grid[selectedRow.get()][selectedColumn.get()].setStyle("-fx-border-color: black; -fx-background-color: white;");
