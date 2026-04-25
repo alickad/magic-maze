@@ -231,4 +231,10 @@ public class Logic {
     public void removeReset(TimeReset timeReset) {
         timeResets.remove(timeReset);
     }
+
+    /// Get the total set time.
+    /// @return the time to complete the game
+    public double getTotalTime(){
+        return totalTime;
+    }
 }
