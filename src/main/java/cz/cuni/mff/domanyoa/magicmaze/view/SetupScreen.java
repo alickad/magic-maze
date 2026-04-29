@@ -1,6 +1,7 @@
 package cz.cuni.mff.domanyoa.magicmaze.view;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -112,6 +113,23 @@ public class SetupScreen {
 
                 if (w < 5 || h < 5) {
                     System.out.println("Board too small! Set to at least 5x5.");
+                    return;
+                }
+
+                if (time <= 0){
+                    System.out.println("I doubt you can do it in negative time...");
+                    return;
+                }
+
+                HashSet<KeyCode>  keys = new HashSet<>();
+                for (Hero hero: heroes) {
+                    keys.add(hero.getKey(Direction.UP));
+                    keys.add(hero.getKey(Direction.DOWN));
+                    keys.add(hero.getKey(Direction.LEFT));
+                    keys.add(hero.getKey(Direction.RIGHT));
+                }
+                if (keys.size() < heroes.size() * 4){
+                    System.out.println("Do not use one key for different movements");
                     return;
                 }
 

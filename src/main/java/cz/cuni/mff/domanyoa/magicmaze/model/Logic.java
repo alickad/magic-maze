@@ -49,12 +49,11 @@ public class Logic {
         Exit exit3 = new Exit(4, 5);
         Exit exit4 = new Exit(10, 3);
         exits = Arrays.asList(exit1, exit2, exit3, exit4);
-        // placeholder
 
         TimeReset timeReset1 = new TimeReset(1, 1);
         TimeReset timeReset2 = new TimeReset(4, 4);
         timeResets =  Arrays.asList(timeReset1, timeReset2);
-        // dalsi placeholder
+        board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
     }
 
     private boolean coordinateOccupied(int y, int x) {
@@ -145,7 +144,7 @@ public class Logic {
                 board.tileAt(y,x).setOccupied(false);
                 hero.move(Direction.UP);
                 board.tileAt(hero.getY(), hero.getX()).setOccupied(true);
-                System.out.println("New position (" + hero.getX() + "," + hero.getY() + ") occupied=" + board.tileAt(hero.getX(),hero.getY()).isOccupied());
+                System.out.println("New position (" + hero.getY() + "," + hero.getX() + ") occupied=" + board.tileAt(hero.getY(),hero.getX()).isOccupied());
             }
             case DOWN -> {
                 board.tileAt(y,x).setOccupied(false);

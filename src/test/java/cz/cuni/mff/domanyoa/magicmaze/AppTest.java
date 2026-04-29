@@ -19,10 +19,12 @@ class HeroMovementTest {
         Logic logic = new Logic(heroes);
 
         if (logic.canMove(heroes.get(0), Direction.UP)) {
+            logic.move(heroes.get(0), Direction.UP);
             assertEquals(4, heroes.get(0).getY());
             assertEquals(6, heroes.get(0).getX());
         }
         else{
+            logic.move(heroes.get(0), Direction.UP);
             assertEquals(5, heroes.get(0).getY());
             assertEquals(6, heroes.get(0).getX());
         }
@@ -36,12 +38,14 @@ class HeroMovementTest {
         List<Hero> heroes = Arrays.asList(hero1, hero2, hero3, hero4);
         Logic logic = new Logic(heroes);
 
-        logic.move(heroes.get(2), Direction.DOWN);
+
         if (logic.canMove(heroes.get(2), Direction.DOWN)) {
+            logic.move(heroes.get(2), Direction.DOWN);
             assertEquals(9, heroes.get(2).getY());
             assertEquals(8, heroes.get(2).getX());
         }
         else{
+            logic.move(heroes.get(2), Direction.DOWN);
             assertEquals(8, heroes.get(2).getY());
             assertEquals(8, heroes.get(2).getX());
         }
@@ -55,12 +59,13 @@ class HeroMovementTest {
         List<Hero> heroes = Arrays.asList(hero1, hero2, hero3, hero4);
         Logic logic = new Logic(heroes);
 
-        logic.move(heroes.get(2), Direction.LEFT);
         if (logic.canMove(heroes.get(2), Direction.LEFT)) {
+            logic.move(heroes.get(2), Direction.LEFT);
             assertEquals(8, heroes.get(2).getY());
             assertEquals(7, heroes.get(2).getX());
         }
         else{
+            logic.move(heroes.get(2), Direction.LEFT);
             assertEquals(8, heroes.get(2).getY());
             assertEquals(8, heroes.get(2).getX());
         }
@@ -74,12 +79,13 @@ class HeroMovementTest {
         List<Hero> heroes = Arrays.asList(hero1, hero2, hero3, hero4);
         Logic logic = new Logic(heroes);
 
-        logic.move(heroes.get(2), Direction.RIGHT);
         if (logic.canMove(heroes.get(2), Direction.RIGHT)) {
+            logic.move(heroes.get(2), Direction.RIGHT);
             assertEquals(8, heroes.get(2).getY());
             assertEquals(9, heroes.get(2).getX());
         }
         else{
+            logic.move(heroes.get(2), Direction.RIGHT);
             assertEquals(8, heroes.get(2).getY());
             assertEquals(8, heroes.get(2).getX());
         }
